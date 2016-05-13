@@ -1,15 +1,13 @@
 #include "LittleSquareClient.h"
 
-bool LittleSquareClient::IsValidPosition()
-{
-	if (position >= MIN_SQUARE && position <= MAX_SQUARE)
-	{
+bool LittleSquareClient::IsValidPosition() {
+	if (pos_x >= MIN_SQUARE && pos_x <= MAX_SQUARE && pos_y >= MIN_SQUARE && pos_y <= MAX_SQUARE) {
 		return true;
-	}
-	return false;
+	} return false;
+
 }
 
-void LittleSquareClient::SetDelta(int _delta)
+void LittleSquareClient::SetDelta(int _deltaX, int _deltaY)
 {
 	//Compruebo el delta que ha hecho el otro jugador, para no simular posiciones erróneas
 	//Lo corrijo aquí para ver qué pasaría si el otro jugador tratara de hacer trampas.
@@ -17,18 +15,22 @@ void LittleSquareClient::SetDelta(int _delta)
 	//int checkPosition = position + _delta;
 	//if (checkPosition >= MIN_SQUARE && checkPosition <= MAX_SQUARE)
 	//{
-		position += _delta;
+		pos_x += _deltaX;
+		pos_y += _deltaY;
 	//}
 }
 
-int LittleSquareClient::CalculateEndPosition(int _currentPosition, PlayerMoveList & _aPlayersMoves)
+std::pair <int, int> LittleSquareClient::CalculateEndPosition(int _curPosX, int _curPosY, PlayerMoveList & _aPlayersMovesX, PlayerMoveList & _aPlayersMovesY)
 {
-	for (size_t i = 0; i < _aPlayersMoves.size(); i++)
-	{
-		PlayerMove playerMove = _aPlayersMoves[i];
-		_currentPosition += playerMove.GetDelta();
+	for (size_t i = 0; i < _aPlayersMovesX.size(); i++) {
+		PlayerMove playerMove = _aPlayersMovesX[i];
+		_curPosX += playerMove.GetDeltaX();
 	}
-	return _currentPosition;
+	for (size_t i = 0; i < _aPlayersMovesY.size(); i++) {
+		PlayerMove playerMove = _aPlayersMovesY[i];
+		_curPosY += playerMove.GetDeltaX();
+	}
+	return std::make_pair (_curPosX, _curPosY);
 }
 
 void LittleSquareClient::InterpolatePath(int _start, int _end, std::string& _strPositions)

@@ -5,17 +5,20 @@ class PlayerCommand
 private:
 	int idPlayer;
 	int idMove;
-	int delta;
-	std::vector<int> aSteps;
+	int deltaX, deltaY;
+	std::vector<int> aStepsX;
+	std::vector<int> aStepsY;
 
 public:
 	PlayerCommand();
-	PlayerCommand(int _idPlayer, int _idMove, int _delta, std::vector<int> _aDetailedPath);
+	PlayerCommand(int _idPlayer, int _idMove, int _deltaX, int _deltaY, std::vector<int> _aDetailedPathX, std::vector<int> _aDetailedPathY);
 	PlayerCommand(const PlayerCommand& _playerCommand);
 	int GetIdPlayer();
 	int GetIdMove();
-	int GetDelta();
-	std::vector<int> GetDetailedPath();
+	int GetDeltaX();
+	int GetDeltaY();
+	std::vector<int> GetDetailedPathX();
+	std::vector<int> GetDetailedPathY();
 	~PlayerCommand();
 };
 

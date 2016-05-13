@@ -1,0 +1,10 @@
+﻿  PlayerCommandList.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\playercommandlist.cpp(2): fatal error C1083: Cannot open include file: 'LittleSquare.h': No such file or directory
+  PlayerCommand.cpp
+  NetworkServer.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.h(2): fatal error C1083: Cannot open include file: 'UDPSocket.h': No such file or directory
+  MainServer.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\mainserver.cpp(2): fatal error C1083: Cannot open include file: 'SocketTools.h': No such file or directory
+  ClientProxy.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\clientproxy.h(4): fatal error C1083: Cannot open include file: 'SocketAddress.h': No such file or directory
+  Generating Code...

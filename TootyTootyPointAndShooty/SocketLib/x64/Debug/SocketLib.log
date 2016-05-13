@@ -1,0 +1,7 @@
+﻿  UDPSocket.cpp
+  TCPSocket.cpp
+  SocketTools.cpp
+  SocketAddress.cpp
+  GenericSocket.cpp
+  Generating Code...
+  SocketLib.vcxproj -> C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\x64\Debug\SocketLib.lib

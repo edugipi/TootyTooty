@@ -26,7 +26,7 @@ public:
 		return size();
 	}
 
-	bool Acknowledge(int _id, int _ackPosition)
+	bool Acknowledge(int _id, int _ackPositionX, int _ackPositionY)
 	{
 		bool okAck = true;
 		int posRemove = -1;
@@ -37,11 +37,16 @@ public:
 			if (_id == inputState.GetId())
 			{
 				posRemove = i;
-				if (inputState.GetAbsolutePosition() != _ackPosition)
-				{
-					std::cout << ">>>>>>>>Corrijo de " << inputState.GetAbsolutePosition() << " a " << _ackPosition << std::endl;
+				if (inputState.GetAbsolutePositionX() != _ackPositionX) {
+					std::cout << ">>>>>>>>Corrijo de " << inputState.GetAbsolutePositionX() << " a " << _ackPositionX << std::endl;
 					//erase(begin() + posRemove +1, begin()+size());
 					okAck = false;
+
+				} else if (inputState.GetAbsolutePositionY() != _ackPositionY) {
+					std::cout << ">>>>>>>>Corrijo de " << inputState.GetAbsolutePositionY() << " a " << _ackPositionY << std::endl;
+					//erase(begin() + posRemove +1, begin()+size());
+					okAck = false;
+
 				}
 				
 				break;

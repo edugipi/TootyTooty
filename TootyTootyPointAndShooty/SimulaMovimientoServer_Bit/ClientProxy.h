@@ -17,8 +17,8 @@ public:
 	ClientProxy(std::string _nick, SocketAddress _saClient);
 	ClientProxy(const ClientProxy& _clientProxy);
 	bool operator==(const ClientProxy& _clientProxy);
-	int GetPositionSquare();
-	int ChangeMove(int _move);
+	std::pair <int, int> GetPositionSquare();
+	std::pair <int, int> ChangeMove(int _moveX, int _moveY);
 	bool GetErrorLastMove();
 	void SetNick(std::string _nick);
 	SocketAddress& GetSocketAddress();

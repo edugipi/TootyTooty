@@ -6,13 +6,13 @@ PlayerCommand::PlayerCommand()
 {
 }
 
-PlayerCommand::PlayerCommand(int _idPlayer, int _idMove, int _delta, std::vector<int> _aDetailedPath): idPlayer(_idPlayer), idMove(_idMove),
-	delta(_delta), aSteps(_aDetailedPath)
+PlayerCommand::PlayerCommand(int _idPlayer, int _idMove, int _deltaX, int _deltaY, std::vector<int> _aDetailedPathX, std::vector<int> _aDetailedPathY): idPlayer(_idPlayer), idMove(_idMove),
+	deltaX(_deltaX), deltaY(_deltaY), aStepsX(_aDetailedPathX), aStepsY(_aDetailedPathY)
 {
 }
 
 PlayerCommand::PlayerCommand(const PlayerCommand & _playerCommand):
-	PlayerCommand(_playerCommand.idPlayer, _playerCommand.idMove, _playerCommand.delta, _playerCommand.aSteps)
+	PlayerCommand(_playerCommand.idPlayer, _playerCommand.idMove, _playerCommand.deltaX, _playerCommand.deltaY, _playerCommand.aStepsX, _playerCommand.aStepsY)
 {
 }
 
@@ -26,14 +26,24 @@ int PlayerCommand::GetIdMove()
 	return idMove;
 }
 
-int PlayerCommand::GetDelta()
+int PlayerCommand::GetDeltaX()
 {
-	return delta;
+	return deltaX;
 }
 
-std::vector<int> PlayerCommand::GetDetailedPath()
+int PlayerCommand::GetDeltaY()
 {
-	return aSteps;
+	return deltaY;
+}
+
+std::vector<int> PlayerCommand::GetDetailedPathX()
+{
+	return aStepsX;
+}
+
+std::vector<int> PlayerCommand::GetDetailedPathY()
+{
+	return aStepsY;
 }
 
 

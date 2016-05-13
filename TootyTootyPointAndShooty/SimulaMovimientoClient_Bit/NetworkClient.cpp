@@ -54,34 +54,34 @@ void NetworkClient::SayHello()
 	}
 }
 
-void NetworkClient::SendMove(int _positionSquare, InputState& _inputState, InputStateList& _inputStateList)
-{
+void NetworkClient::SendMove(int _posSquareX, int _posSquareY, InputState& _inputState, InputStateList& _inputStateList) {
 	clock_t time = clock();
-	if (time > timeOfLastMove + FREQUENCY_SENDING_INPUTS)
-	{
-		if (_inputState.GetDelta() != 0)
-		{
+	if (time > timeOfLastMove + FREQUENCY_SENDING_INPUTS) {
+		if (_inputState.GetDeltaX() != 0 || _inputState.GetDeltaY() != 0) {
 			//Hay movimiento que enviar --> Si es cero, me quedo donde estoy. No vale la pena perder tiempo en enviar y en esperar respuesta.
 			_inputState.SetId(_inputStateList.GetCounter());
-			std::vector<int> aMoves = _inputState.GetMoves();
-			_inputState.SetAbsolutePosition(_positionSquare);
+			std::vector<int> aMovesX = _inputState.GetMovesX();
+			std::vector<int> aMovesY = _inputState.GetMovesY();
+			_inputState.SetAbsolutePosition(_posSquareX, _posSquareY);
 			_inputStateList.Add(_inputState);
 
 			OutputMemoryBitStream ombs;
 			ombs.Write(PacketType::PT_TRYPOSITION, 3);
 			ombs.Write(_inputState.GetId());
-			ombs.Write(aMoves);
+			ombs.Write(aMovesX);
+			ombs.Write(aMovesY);
 			//std::cout << "Preparo un TRYPOSITION con id " << _inputState.GetId() << std::endl;
 			//std::cout << "Contiene estos pasos: " << std::endl;
-			/*for each (int var in aMoves)
-			{
+			/*for each (int var in aMoves) {
 				std::cout << var << std::endl;
+
 			}*/
 			Send(ombs.GetBufferPtr(), ombs.GetByteLength());
 			_inputState.ResetMove();
-		}
-		timeOfLastMove = time;
+		} timeOfLastMove = time;
+
 	}
+
 }
 
 
