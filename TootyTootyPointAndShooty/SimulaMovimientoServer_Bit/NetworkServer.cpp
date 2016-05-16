@@ -99,7 +99,8 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						//Por cada uno de los demás jugadores paso 
 						//su idSquare y su posición.
 						ombs.Write(i, 1);
-						ombs.Write(aPlayers[i].GetPositionSquare(), 10);
+						ombs.Write(aPlayers[i].GetPositionSquare().first, 10);
+						ombs.Write(aPlayers[i].GetPositionSquare().second, 10);
 					}
 				}
 				udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), _saClient);
@@ -170,8 +171,8 @@ void NetworkServer::Dispatch_Forwards()
 				ombs.Write(aDetailedPathY);
 
 			} else {
-				ombs.Write(0);
-				ombs.Write(0);
+				ombs.Write(0, 10);
+				ombs.Write(0, 10);
 
 			} ombs.Write(newPosition.first, 10);
 			ombs.Write(newPosition.second, 10);

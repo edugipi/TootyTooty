@@ -1,8 +1,4 @@
 ﻿  NetworkServer.cpp
-c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(152): warning C4018: '<': signed/unsigned mismatch
-c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientolib_bit\outputmemorybitstream.h(151): error C2338: Este Write solo soporta tipos basicos.
-  c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(102): note: see reference to function template instantiation 'void OutputMemoryBitStream::Write<std::pair<int,int>>(T,uint32_t)' being compiled
-          with
-          [
-              T=std::pair<int,int>
-          ]
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(153): warning C4018: '<': signed/unsigned mismatch
+  LINK : C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe not found or not built by the last incremental link; performing full link
+  SimulaMovimientoServer_Bit.vcxproj -> C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe

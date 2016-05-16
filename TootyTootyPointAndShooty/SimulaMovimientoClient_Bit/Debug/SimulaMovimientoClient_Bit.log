@@ -1,1 +1,15 @@
-﻿LINK : fatal error LNK1168: cannot open C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe for writing
+﻿  SDLInterface.cpp
+  PlayerMoveList.cpp
+  PlayerMove.cpp
+  NetworkClient.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+  Main.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+  LittleSquareClient.cpp
+  Game.cpp
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+c:\users\red\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(103): warning C4018: '<': signed/unsigned mismatch
+  ErrorManagement.cpp
+  Generating Code...
+  LINK : C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe not found or not built by the last incremental link; performing full link
+  SimulaMovimientoClient_Bit.vcxproj -> C:\Users\Red\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe
