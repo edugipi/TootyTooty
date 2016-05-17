@@ -97,12 +97,12 @@ void Game::Receiving()
 		if (pt == PacketType::PT_WELCOME)
 		{
 			int idSquare=0, numOtherPlayers=0, positionX=0, positionY=0;
-			imbs.Read(&idSquare, 1);
+			imbs.Read(&idSquare, 2);
 			_network.SetIdSquare(idSquare);
-			imbs.Read(&numOtherPlayers,1);
+			imbs.Read(&numOtherPlayers,2);
 			for (size_t i = 0; i < numOtherPlayers; i++)
 			{
-				imbs.Read(&idSquare, 1);
+				imbs.Read(&idSquare, 2);
 				imbs.Read(&positionX, 10);
 				imbs.Read(&positionY, 10);
 				aSquares[idSquare].SetPosition(positionX, positionY);
