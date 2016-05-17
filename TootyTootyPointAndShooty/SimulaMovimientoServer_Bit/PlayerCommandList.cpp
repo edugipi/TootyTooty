@@ -10,9 +10,9 @@ PlayerCommandList::PlayerCommandList()
 /**
  * _str es el contenido del Dispatch_Message
  */
-void PlayerCommandList::AddCommand(int _idPlayer, int _idMove, int _delta, std::vector<int> _aDetailedPath)
+void PlayerCommandList::AddCommand(int _idPlayer, int _idMove, int _deltaX, int _deltaY, std::vector<int> _aDetailedPathX, std::vector<int> _aDetailedPathY)
 {
-	PlayerCommand playerCommand(_idPlayer, _idMove, _delta, _aDetailedPath);
+	PlayerCommand playerCommand(_idPlayer, _idMove, _deltaX, _deltaY, _aDetailedPathX, _aDetailedPathY);
 	push_back(playerCommand);
 }
 

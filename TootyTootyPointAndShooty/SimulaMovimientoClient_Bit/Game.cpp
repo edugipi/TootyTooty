@@ -65,8 +65,8 @@ void Game::gameLoop() {
 			_network.SayHello();
 		}
 
-		int positionSquare = aSquares[_network.GetIdSquare()].GetPosition();
-		_network.SendMove(positionSquare, _inputState, _inputStateList);
+		std::pair <int, int> positionSquare = std::make_pair(aSquares[_network.GetIdSquare()].GetPositionX(), aSquares[_network.GetIdSquare()].GetPositionY());
+		_network.SendMove(positionSquare.first, positionSquare.second, _inputState, _inputStateList);
 		
 		Receiving();
 		SimulateOtherPlayers();
@@ -96,15 +96,16 @@ void Game::Receiving()
 		imbs.Read(&pt, 3);
 		if (pt == PacketType::PT_WELCOME)
 		{
-			int idSquare=0, numOtherPlayers=0, position=0;
+			int idSquare=0, numOtherPlayers=0, positionX=0, positionY=0;
 			imbs.Read(&idSquare, 1);
 			_network.SetIdSquare(idSquare);
 			imbs.Read(&numOtherPlayers,1);
 			for (size_t i = 0; i < numOtherPlayers; i++)
 			{
 				imbs.Read(&idSquare, 1);
-				imbs.Read(&position, 10);
-				aSquares[idSquare].SetPosition(position);
+				imbs.Read(&positionX, 10);
+				imbs.Read(&positionY, 10);
+				aSquares[idSquare].SetPosition(positionX, positionY);
 			}
 			_network.SetNetworkState(NetworkState::WELCOMED);
 		}
@@ -118,37 +119,50 @@ void Game::Receiving()
 			imbs.Read(&numPositionsSend, 4);
 			for (int i = 0; i < numPositionsSend; i++)
 			{
-				int idMove=0, idSquare=0, confirmedPosition=0;
-				std::vector<int> aSteps;
+				int idMove=0, idSquare=0, confirmedPositionX=0, confirmedPositionY=0;
+				std::vector<int> aStepsX;
+				std::vector<int> aStepsY;
 				imbs.Read(&idMove);
-				imbs.Read(&idSquare, 1);
-				imbs.Read(aSteps);
-				imbs.Read(&confirmedPosition, 10);
-				int deltaMovement = LittleSquare::CalculateDeltaMovement(aSteps);
+				imbs.Read(&idSquare, 2);
+				imbs.Read(aStepsX);
+				imbs.Read(aStepsY);
+				imbs.Read(&confirmedPositionX, 10);
+				imbs.Read(&confirmedPositionY, 10);
+				int deltaMovementX = LittleSquare::CalculateDeltaMovement(aStepsX);
+				int deltaMovementY = LittleSquare::CalculateDeltaMovement(aStepsY);
 
 				if (idSquare == _network.GetIdSquare())
 				{
 					//Si este movimiento lo realicé yo
-					bool okPosition = _inputStateList.Acknowledge(idMove, confirmedPosition);
+					bool okPosition = _inputStateList.Acknowledge(idMove, confirmedPositionX, confirmedPositionY);
 
 					if (!okPosition)
 					{
 						//Corrijo si la predicción esta mal.
-						aSquares[idSquare].SetPosition(confirmedPosition);
+						aSquares[idSquare].SetPosition(confirmedPositionX, confirmedPositionY);
 					}
-					std::cout << "Confirman: " << confirmedPosition << std::endl;
+					std::cout << "Confirman: " << confirmedPositionX << " : " << confirmedPositionY << std::endl;
 				}
 				else
 				{
 					//Si este movimiento lo realizó otro cuadrado
-					if (aSteps.size() > 0)
+					if (aStepsX.size() > 0)
 					{
-						if (aSteps.size() > NUM_STEPS_ENTITY)
+						if (aStepsX.size() > NUM_STEPS_ENTITY)
 						{
 							//Si hay demasiados pasos a simular
-							aSteps = LittleSquareClient::CompressPath(NUM_STEPS_ENTITY, aSteps);
+							aStepsX = LittleSquareClient::CompressPath(NUM_STEPS_ENTITY, aStepsX);
 						}
-						_aPlayersMoves.AddMoves(idSquare, aSteps);
+						_aPlayersMoves.AddMovesX(idSquare, aStepsX);
+					}
+					if (aStepsY.size() > 0)
+					{
+						if (aStepsY.size() > NUM_STEPS_ENTITY)
+						{
+							//Si hay demasiados pasos a simular
+							aStepsY = LittleSquareClient::CompressPath(NUM_STEPS_ENTITY, aStepsY);
+						}
+						_aPlayersMoves.AddMovesY(idSquare, aStepsY);
 					}
 				}
 			}
@@ -156,8 +170,8 @@ void Game::Receiving()
 		else if (pt == PacketType::PT_RESETPLAYER)
 		{
 			int idSquare=0;
-			imbs.Read(&idSquare, 1);
-			aSquares[idSquare].SetPosition(MIN_SQUARE);
+			imbs.Read(&idSquare, 2);
+			aSquares[idSquare].SetPosition(MIN_SQUARE, MIN_SQUARE);
 		}
 		else if (pt == PacketType::PT_DISCONNECT)
 		{
@@ -172,7 +186,7 @@ void Game::SimulateOtherPlayers()
 	bool okMove = _aPlayersMoves.PopMove(playerMove);
 	if (okMove)
 	{
-		aSquares[playerMove.GetIdSquare()].SetDelta(playerMove.GetDelta());
+		aSquares[playerMove.GetIdSquare()].SetDelta(playerMove.GetDeltaX(),playerMove.GetDeltaY());
 	}
 }
 
@@ -187,17 +201,31 @@ void Game::executePlayerCommands() {
 	//Controlo que no se envíen movimientos inválidos.
 	//Aunque si se enviaran el servidor lo controlaría y me devolvería al sitio.
 	if (_graphic.isKeyDown(SDLK_RIGHT)){
-		if (aSquares[_network.GetIdSquare()].GetPosition() + 1 <= MAX_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= MAX_SQUARE)
 		{
 			_inputState.AddRight();
 			aSquares[_network.GetIdSquare()].AddRight();
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_LEFT)) {
-		if (aSquares[_network.GetIdSquare()].GetPosition() - 1 >= MIN_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= MIN_SQUARE)
 		{
 			_inputState.AddLeft();
 			aSquares[_network.GetIdSquare()].AddLeft();
+		}
+	}
+	if (_graphic.isKeyDown(SDLK_UP)) {
+		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 <= MAX_SQUARE)
+		{
+			_inputState.AddUp();
+			aSquares[_network.GetIdSquare()].AddUp();
+		}
+	}
+	if (_graphic.isKeyDown(SDLK_DOWN)) {
+		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 >= MIN_SQUARE)
+		{
+			_inputState.AddDown();
+			aSquares[_network.GetIdSquare()].AddDown();
 		}
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
@@ -253,8 +281,9 @@ void Game::drawGame() {
 	
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
-		int position = aSquares[i].GetPosition();
-		_graphic.drawFilledRectangle(i, position, 40 + 180*i, SIZE_SQUARE, SIZE_SQUARE);
+		int positionX = aSquares[i].GetPositionX();
+		int positionY = aSquares[i].GetPositionY();
+		_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
 	}
 }
 

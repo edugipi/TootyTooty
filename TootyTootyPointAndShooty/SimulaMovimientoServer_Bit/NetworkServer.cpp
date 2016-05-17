@@ -87,7 +87,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 				OutputMemoryBitStream ombs;
 				ombs.Write(PacketType::PT_WELCOME, 3);
 				//Corresponde al idSquare
-				ombs.Write(freePosition, 1);
+				ombs.Write(freePosition, 2);
 				int numPlayers = GetNumPlayers()-1;
 				//Cuánta información recibiré de los demás usuarios
 				//Preparado para más de 2
@@ -98,8 +98,9 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 					{
 						//Por cada uno de los demás jugadores paso 
 						//su idSquare y su posición.
-						ombs.Write(i, 1);
-						ombs.Write(aPlayers[i].GetPositionSquare(), 10);
+						ombs.Write(i, 2);
+						ombs.Write(aPlayers[i].GetPositionSquare().first, 10);
+						ombs.Write(aPlayers[i].GetPositionSquare().second + 10 * i, 10);
 					}
 				}
 				udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), _saClient);
@@ -112,11 +113,14 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 		{
 			int idMove = 0;
 			imbs.Read(&idMove);
-			std::vector<int> aPositions;
-			imbs.Read(aPositions);
-			int delta = LittleSquare::CalculateDeltaMovement(aPositions);
+			std::vector<int> aPosX;
+			std::vector<int> aPosY;
+			imbs.Read(aPosX);
+			imbs.Read(aPosY);
+			int deltaX = LittleSquare::CalculateDeltaMovement(aPosX);
+			int deltaY = LittleSquare::CalculateDeltaMovement(aPosY);
 			
-			aPlayersCommands.AddCommand(index, idMove, delta, aPositions);
+			aPlayersCommands.AddCommand(index, idMove, deltaX, deltaY, aPosX, aPosY);
 			
 		}
 	}
@@ -152,26 +156,30 @@ void NetworkServer::Dispatch_Forwards()
 			aPlayersCommands.PopCommand(playerCommand);
 			
 			int idPlayer = playerCommand.GetIdPlayer();
-			int delta = playerCommand.GetDelta();
-			std::cout << "Intenta " << std::to_string(delta) << std::endl;
-			int newPosition = aPlayers[idPlayer].ChangeMove(delta);
-			std::cout << "Se concede " << std::to_string(newPosition) << std::endl;
+			int deltaX = playerCommand.GetDeltaX();
+			int deltaY = playerCommand.GetDeltaY();
+			std::cout << "Intenta " << std::to_string(deltaX) << " : " << std::to_string(deltaY) << std::endl;
+			std::pair <int, int> newPosition = aPlayers[idPlayer].ChangeMove(deltaX, deltaY);
+			std::cout << "Se concede " << std::to_string(newPosition.first) << " : " << std::to_string(newPosition.second) << std::endl;
 
 			ombs.Write(playerCommand.GetIdMove());
-			ombs.Write(idPlayer, 1);
-			if (!aPlayers[idPlayer].GetErrorLastMove())
-			{
-				std::vector<int> aDetailedPath = playerCommand.GetDetailedPath();
-				ombs.Write(aDetailedPath);
-			}
-			else
-			{
-				ombs.Write(0);
-			}
-			ombs.Write(newPosition, 10);
-		}
-		SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+			ombs.Write(idPlayer, 2);
+			if (!aPlayers[idPlayer].GetErrorLastMove()) {
+				std::vector<int> aDetailedPathX = playerCommand.GetDetailedPathX();
+				std::vector<int> aDetailedPathY = playerCommand.GetDetailedPathY();
+				ombs.Write(aDetailedPathX);
+				ombs.Write(aDetailedPathY);
+
+			} else {
+				ombs.Write(0, 10);
+				ombs.Write(0, 10);
+
+			} ombs.Write(newPosition.first, 10);
+			ombs.Write(newPosition.second, 10);
+
+		} SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
 		timeOfLastForward = time;
+
 	}
 }
 

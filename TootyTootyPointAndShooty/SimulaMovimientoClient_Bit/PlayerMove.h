@@ -2,15 +2,17 @@
 class PlayerMove
 {
 private:
-	int delta;
+	int deltaX;
+	int deltaY;
 	int idSquare;
 public:
 	PlayerMove();
-	PlayerMove(int _delta, int _idSquare);
+	PlayerMove(int _deltaX, int _deltaY, int _idSquare);
 	PlayerMove(const PlayerMove& _playerMove);
-	int GetDelta();
+	int GetDeltaX();
+	int GetDeltaY();
 	int GetIdSquare();
-	void SetDelta(int _delta);
+	void SetDelta(int _deltaX, int _deltaY);
 	void SetIdSquare(int _idSquare);
 	~PlayerMove();
 };

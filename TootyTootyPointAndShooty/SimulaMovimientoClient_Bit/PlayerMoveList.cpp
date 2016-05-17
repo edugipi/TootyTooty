@@ -6,17 +6,25 @@ PlayerMoveList::PlayerMoveList()
 {
 }
 
-void PlayerMoveList::AddMove(int _delta, int _idSquare)
+void PlayerMoveList::AddMove(int _deltaX, int _deltaY, int _idSquare)
 {
-	PlayerMove playerMove(_delta, _idSquare);
+	PlayerMove playerMove(_deltaX, _deltaY, _idSquare);
 	push_back(playerMove);
 }
 
-void PlayerMoveList::AddMoves(int _idSquare, std::vector<int> _aDeltas)
+void PlayerMoveList::AddMovesX(int _idSquare, std::vector<int> _aDeltas)
 {
 	for (size_t i = 0; i < _aDeltas.size(); i++)
 	{
-		AddMove(_aDeltas[i], _idSquare);
+		AddMove(_aDeltas[i], 0, _idSquare);
+	}
+}
+
+void PlayerMoveList::AddMovesY(int _idSquare, std::vector<int> _aDeltas)
+{
+	for (size_t i = 0; i < _aDeltas.size(); i++)
+	{
+		AddMove(0, _aDeltas[i], _idSquare);
 	}
 }
 

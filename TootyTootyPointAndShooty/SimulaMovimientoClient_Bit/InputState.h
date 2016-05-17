@@ -7,71 +7,103 @@
 class InputState
 {
 private:
-	int absolutePosition;
-	std::vector<int> aMoves;
+	int absPosX, absPosY;
+	std::vector<int> aMovesX;
+	std::vector<int> aMovesY;
 	int id;
 
 public:
-	InputState():absolutePosition(0),id(0)
-	{
+	InputState():absPosX(0),absPosY(0),id(0) {
 		
 	}
 
-	InputState(const InputState& _inputState)
-	{
-		aMoves = _inputState.aMoves;
+	InputState(const InputState& _inputState) {
+		aMovesX = _inputState.aMovesX;
+		aMovesY = _inputState.aMovesY;
 		id = _inputState.id;
-		absolutePosition = _inputState.absolutePosition;
+		absPosX = _inputState.absPosX;
+		absPosY = _inputState.absPosY;
+
 	}
 
-	int GetId()
-	{
+	int GetId() {
 		return id;
+
 	}
 
-	void SetId(int _id)
-	{
+	void SetId(int _id) {
 		id = _id;
+
 	}
 
-	int GetDelta()
-	{
+	int GetDeltaX() {
 		int delta = 0;
-		for (size_t i = 0; i < aMoves.size(); i++)
-		{
-			delta += aMoves[i];
-		}
-		return delta;
+		for (size_t i = 0; i < aMovesX.size(); i++) {
+			delta += aMovesX[i];
+
+		} return delta;
+
 	}
 
-	int GetAbsolutePosition()
-	{
-		return absolutePosition;
+	int GetDeltaY() {
+		int delta = 0;
+		for (size_t i = 0; i < aMovesY.size(); i++) {
+			delta += aMovesY[i];
+
+		} return delta;
+
 	}
 
-	void SetAbsolutePosition(int _absolutePosition)
-	{
-		absolutePosition = _absolutePosition;
+	int GetAbsolutePositionX() {
+		return absPosX;
+
 	}
 
-	void AddLeft()
-	{
-		aMoves.push_back(-1);
+	int GetAbsolutePositionY() {
+		return absPosY;
+
 	}
 
-	void AddRight()
-	{
-		aMoves.push_back(1);
+	void SetAbsolutePosition(int _absPosX, int _absPosY) {
+		absPosX = _absPosX;
+		absPosY = _absPosY;
+
 	}
 
-	std::vector<int> GetMoves()
-	{
-		return aMoves;
+	void AddLeft() {
+		aMovesX.push_back(-1);
+
 	}
 
-	void ResetMove()
-	{
-		aMoves.clear();
+	void AddRight() {
+		aMovesX.push_back(1);
+
+	}
+
+	void AddUp() {
+		aMovesY.push_back(-1);
+
+	}
+
+	void AddDown() {
+		aMovesY.push_back(1);
+
+	}
+
+	std::vector<int> GetMovesX() {
+		return aMovesX;
+
+	}
+
+	std::vector<int> GetMovesY() {
+		return aMovesY;
+
+	}
+
+	void ResetMove() {
+		aMovesX.clear();
+		aMovesY.clear();
+
 	}
 
 	~InputState() {}
