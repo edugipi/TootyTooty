@@ -1,13 +1,1 @@
-﻿Build started 18/05/2016 18:20:38.
-     1>Project "C:\Users\egimenez\Desktop\TootyTooty\TootyTootyPointAndShooty\SimulaMovimientoLib_Bit\SimulaMovimientoLib_Bit.vcxproj" on node 2 (Rebuild target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\SimulaMovimientoLib_Bit.pdb" /Gd /TP /analyze- /errorReport:prompt LittleSquare.cpp
-         LittleSquare.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\Lib.exe /OUT:"C:\Users\egimenez\Desktop\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoLib_Bit.lib" /NOLOGO Debug\LittleSquare.obj
-         SimulaMovimientoLib_Bit.vcxproj -> C:\Users\egimenez\Desktop\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoLib_Bit.lib
-     1>Done Building Project "C:\Users\egimenez\Desktop\TootyTooty\TootyTootyPointAndShooty\SimulaMovimientoLib_Bit\SimulaMovimientoLib_Bit.vcxproj" (Rebuild target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.58
+﻿

@@ -49,6 +49,8 @@ void Game::init() {
 		//Set the font style
 	_graphic.setFontStyle(TTF_STYLE_NORMAL);
 		//Initialize the game elements
+	_graphic.loadTexture(0, "bkg.png");
+
 }
 
 
@@ -226,13 +228,17 @@ void Game::executePlayerCommands() {
 	}
 	if (_graphic.isKeyPressed(SDLK_SPACE)) {
 		shot newShot;
-		newShot.px = aSquares[_network.GetIdSquare()].GetPositionX();
-		newShot.py = aSquares[_network.GetIdSquare()].GetPositionY();
-		newShot.mx = _graphic.getMouseCoords().x;
-		newShot.my = _graphic.getMouseCoords().y;
+		newShot.px = aSquares[_network.GetIdSquare()].GetPositionX() + SIZE_SQUARE / 2;
+		newShot.py = aSquares[_network.GetIdSquare()].GetPositionY() + SIZE_SQUARE / 2;
+		int vec_x = _graphic.getMouseCoords().x - newShot.px;
+		int vec_y = _graphic.getMouseCoords().y - newShot.py;
+		float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
+		float norm_x = vec_x / length;
+		float norm_y = vec_y / length;
+		newShot.mx = newShot.px + norm_x * 200;
+		newShot.my = newShot.py + norm_y * 200;
 		shotsList.push_back(newShot);
 		_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
-		std::cout << "shit son it works";
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
 		_gameState = GameState::EXIT;
@@ -287,9 +293,8 @@ void Game::drawMenu() {
 */
 void Game::drawGame() {
 
-	_graphic.drawFilledRectangle(BLUE, 0, 0, 20, 600);
-	_graphic.drawFilledRectangle(BLUE, 680, 0, 20, 600);
-	
+	_graphic.drawTexture(0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		int positionX = aSquares[i].GetPositionX();
@@ -298,9 +303,7 @@ void Game::drawGame() {
 	}
 
 	for (auto & element : shotsList) {
-		_graphic.drawLine(WHITE,
-			element.px + SIZE_SQUARE / 2, element.py + SIZE_SQUARE / 2,
-			element.mx, element.my);
+		_graphic.drawLine(WHITE, element.px, element.py, element.mx, element.my);
 	}
 
 }

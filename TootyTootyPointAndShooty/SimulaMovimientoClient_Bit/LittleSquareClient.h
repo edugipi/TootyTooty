@@ -4,7 +4,7 @@
 
 class LittleSquareClient : public LittleSquare {
 public:
-	LittleSquareClient() :LittleSquare(MIN_SQUARE, MIN_SQUARE) {}
+	LittleSquareClient() :LittleSquare(330, 280) {}
 	bool IsValidPosition();
 	void SetDelta(int _deltaX, int _deltaY);
 	static std::pair <int, int> CalculateEndPosition(int _curPosX, int _curPosY, PlayerMoveList & _aPlayersMovesX, PlayerMoveList & _aPlayersMovesY);
