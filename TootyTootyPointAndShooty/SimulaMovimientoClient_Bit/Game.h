@@ -14,6 +14,12 @@
 #include "LittleSquareClient.h"
 #include "PlayerMoveList.h"
 
+struct shot{
+	int px, py, mx, my;
+	int decay = 15;
+};
+
+
 /*
 * The Game class manages the game execution
 */
@@ -35,6 +41,8 @@ class Game {
 		InputStateList _inputStateList;
 		PlayerMoveList _aPlayersMoves;
 		LittleSquareClient aSquares[MAX_PLAYERS];
+
+		std::vector<shot> shotsList;
 		
 			//Internal methods for the game execution
 		void init();

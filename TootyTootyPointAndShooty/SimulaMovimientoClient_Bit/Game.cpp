@@ -215,18 +215,27 @@ void Game::executePlayerCommands() {
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_UP)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 <= MAX_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 <= MAX_SQUARE)
 		{
 			_inputState.AddUp();
 			aSquares[_network.GetIdSquare()].AddUp();
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_DOWN)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 >= MIN_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 >= MIN_SQUARE)
 		{
 			_inputState.AddDown();
 			aSquares[_network.GetIdSquare()].AddDown();
 		}
+	}
+	if (_graphic.isKeyPressed(SDLK_SPACE)) {
+		shot newShot;
+		newShot.px = aSquares[_network.GetIdSquare()].GetPositionX();
+		newShot.py = aSquares[_network.GetIdSquare()].GetPositionY();
+		newShot.mx = _graphic.getMouseCoords().x;
+		newShot.my = _graphic.getMouseCoords().y;
+		shotsList.push_back(newShot);
+		std::cout << "shit son it works";
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
 		_gameState = GameState::EXIT;
@@ -235,6 +244,7 @@ void Game::executePlayerCommands() {
 		oms.Write(_network.GetIdSquare());
 		_network.Send(oms.GetBufferPtr(), oms.GetLength());
 	}
+
 }
 
 /*
@@ -242,7 +252,13 @@ void Game::executePlayerCommands() {
 */
 void Game::doPhysics() {
 	
-
+	//Shoot decay
+	//for (0 -> vector shots <> size) { vector shots [i] . decrease life }
+	//if vector shots [i]. life == 0 {erase shot}
+	for (int i = 0; i < shotsList.size(); i++) {
+		shotsList[i].decay--;
+		if (shotsList[i].decay < 0) { shotsList.erase(shotsList.begin() + i); };
+	}
 	
 }
 
@@ -285,6 +301,13 @@ void Game::drawGame() {
 		int positionY = aSquares[i].GetPositionY();
 		_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
 	}
+
+	for (auto & element : shotsList) {
+		_graphic.drawLine(WHITE,
+			element.px, element.py,
+			element.mx, element.my);
+	}
+
 }
 
 /*

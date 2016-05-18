@@ -91,7 +91,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 				int numPlayers = GetNumPlayers()-1;
 				//Cuánta información recibiré de los demás usuarios
 				//Preparado para más de 2
-				ombs.Write(numPlayers, 1);
+				ombs.Write(numPlayers, 2);
 				for (int i = 0; i < MAX_PLAYERS; i++)
 				{
 					if (aPlayersConnected[i] && i != freePosition)
@@ -100,7 +100,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						//su idSquare y su posición.
 						ombs.Write(i, 2);
 						ombs.Write(aPlayers[i].GetPositionSquare().first, 10);
-						ombs.Write(aPlayers[i].GetPositionSquare().second + 10 * i, 10);
+						ombs.Write(aPlayers[i].GetPositionSquare().second, 10);
 					}
 				}
 				udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), _saClient);
@@ -131,7 +131,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 			aPlayersConnected[index] = false;
 			OutputMemoryBitStream ombs;
 			ombs.Write(PacketType::PT_RESETPLAYER, 3);
-			ombs.Write(index, 1);
+			ombs.Write(index, 2);
 			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
 		}
 		if (GetNumPlayers() == 0)
