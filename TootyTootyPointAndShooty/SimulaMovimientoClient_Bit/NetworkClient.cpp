@@ -41,10 +41,6 @@ void NetworkClient::SayHello()
 	clock_t time = clock();
 	if (time > timeOfLastHello + FREQUENCY_SAYING_HELLO)
 	{
-		/*OutputMemoryStream oms;
-		oms.Write(PacketType::PT_HELLO);
-		oms.WriteString(nick);
-		Send(oms.GetBufferPtr(), oms.GetLength());*/
 		OutputMemoryBitStream ombs;
 		ombs.Write(PacketType::PT_HELLO, 4);
 		ombs.WriteString(nick);

@@ -236,10 +236,10 @@ void Game::executePlayerCommands() {
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
 		_gameState = GameState::EXIT;
-		OutputMemoryStream oms;
-		oms.Write(PacketType::PT_DISCONNECT);
-		oms.Write(_network.GetIdSquare());
-		_network.Send(oms.GetBufferPtr(), oms.GetLength());
+		OutputMemoryBitStream ombs;
+		ombs.Write(PacketType::PT_DISCONNECT, 4);
+		ombs.Write(_network.GetIdSquare());
+		_network.Send(ombs.GetBufferPtr(), ombs.GetBitLength());
 	}
 
 }
