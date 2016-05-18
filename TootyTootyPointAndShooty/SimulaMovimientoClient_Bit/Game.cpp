@@ -93,7 +93,7 @@ void Game::Receiving()
 	{
 		//std::cout << "Recibo: " << strReceived << std::endl;
 		PacketType pt = PacketType::PT_EMPTY;
-		imbs.Read(&pt, 3);
+		imbs.Read(&pt, 4);
 		if (pt == PacketType::PT_WELCOME)
 		{
 			int idSquare=0, numOtherPlayers=0, positionX=0, positionY=0;
@@ -146,23 +146,19 @@ void Game::Receiving()
 				else
 				{
 					//Si este movimiento lo realizó otro cuadrado
-					if (aStepsX.size() > 0)
+					if (aStepsX.size() > 0 || aStepsY.size() > 0)
 					{
 						if (aStepsX.size() > NUM_STEPS_ENTITY)
 						{
 							//Si hay demasiados pasos a simular
 							aStepsX = LittleSquareClient::CompressPath(NUM_STEPS_ENTITY, aStepsX);
 						}
-						_aPlayersMoves.AddMovesX(idSquare, aStepsX);
-					}
-					if (aStepsY.size() > 0)
-					{
 						if (aStepsY.size() > NUM_STEPS_ENTITY)
 						{
 							//Si hay demasiados pasos a simular
 							aStepsY = LittleSquareClient::CompressPath(NUM_STEPS_ENTITY, aStepsY);
 						}
-						_aPlayersMoves.AddMovesY(idSquare, aStepsY);
+						_aPlayersMoves.AddMoves(idSquare, aStepsX, aStepsY);
 					}
 				}
 			}
@@ -186,7 +182,7 @@ void Game::SimulateOtherPlayers()
 	bool okMove = _aPlayersMoves.PopMove(playerMove);
 	if (okMove)
 	{
-		aSquares[playerMove.GetIdSquare()].SetDelta(playerMove.GetDeltaX(),playerMove.GetDeltaY());
+		aSquares[playerMove.GetIdSquare()].SetDelta(playerMove.GetDeltaX(), playerMove.GetDeltaY());
 	}
 }
 
@@ -235,6 +231,7 @@ void Game::executePlayerCommands() {
 		newShot.mx = _graphic.getMouseCoords().x;
 		newShot.my = _graphic.getMouseCoords().y;
 		shotsList.push_back(newShot);
+		_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
 		std::cout << "shit son it works";
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
@@ -252,9 +249,7 @@ void Game::executePlayerCommands() {
 */
 void Game::doPhysics() {
 	
-	//Shoot decay
-	//for (0 -> vector shots <> size) { vector shots [i] . decrease life }
-	//if vector shots [i]. life == 0 {erase shot}
+	//Shoot Decay
 	for (int i = 0; i < shotsList.size(); i++) {
 		shotsList[i].decay--;
 		if (shotsList[i].decay < 0) { shotsList.erase(shotsList.begin() + i); };
@@ -292,8 +287,8 @@ void Game::drawMenu() {
 */
 void Game::drawGame() {
 
-	_graphic.drawFilledRectangle(BLUE, 0, 0, 20, 300);
-	_graphic.drawFilledRectangle(BLUE, 680, 0, 20, 300);
+	_graphic.drawFilledRectangle(BLUE, 0, 0, 20, 600);
+	_graphic.drawFilledRectangle(BLUE, 680, 0, 20, 600);
 	
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -304,7 +299,7 @@ void Game::drawGame() {
 
 	for (auto & element : shotsList) {
 		_graphic.drawLine(WHITE,
-			element.px, element.py,
+			element.px + SIZE_SQUARE / 2, element.py + SIZE_SQUARE / 2,
 			element.mx, element.my);
 	}
 

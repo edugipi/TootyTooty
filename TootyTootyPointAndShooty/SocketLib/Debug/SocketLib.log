@@ -1,1 +1,22 @@
-﻿  SocketLib.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SocketLib.lib
+﻿Build started 18/05/2016 16:35:43.
+     1>Project "C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\SocketLib\SocketLib.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\SocketLib.pdb" /Gd /TP /analyze- /errorReport:prompt GenericSocket.cpp SocketAddress.cpp SocketTools.cpp TCPSocket.cpp UDPSocket.cpp
+         UDPSocket.cpp
+         TCPSocket.cpp
+         SocketTools.cpp
+         SocketAddress.cpp
+         GenericSocket.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\Lib.exe /OUT:"C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SocketLib.lib" /NOLOGO Debug\GenericSocket.obj
+         Debug\SocketAddress.obj
+         Debug\SocketTools.obj
+         Debug\TCPSocket.obj
+         Debug\UDPSocket.obj
+         SocketLib.vcxproj -> C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SocketLib.lib
+     1>Done Building Project "C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\SocketLib\SocketLib.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.25

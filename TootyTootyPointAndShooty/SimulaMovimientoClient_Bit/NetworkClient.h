@@ -25,6 +25,7 @@ public:
 
 	void SayHello();
 	void SendMove(int _posSquareX, int _posSquareY, InputState& _inputState, InputStateList& _inputStateList);
+	void SendShot(int _posSquareX, int _posSquareY, int _posShotX, int _posShot, InputState& _inputState, InputStateList& _inputStateList);
 	void Send(char* _message, int _size);
 	int Receive(std::string& _message);
 	int Receive(char* _message);

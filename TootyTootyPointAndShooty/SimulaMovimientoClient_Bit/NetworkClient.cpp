@@ -46,7 +46,7 @@ void NetworkClient::SayHello()
 		oms.WriteString(nick);
 		Send(oms.GetBufferPtr(), oms.GetLength());*/
 		OutputMemoryBitStream ombs;
-		ombs.Write(PacketType::PT_HELLO, 3);
+		ombs.Write(PacketType::PT_HELLO, 4);
 		ombs.WriteString(nick);
 		Send(ombs.GetBufferPtr(), ombs.GetByteLength());
 		std::cout << "Envío hello" << std::endl;
@@ -66,7 +66,7 @@ void NetworkClient::SendMove(int _posSquareX, int _posSquareY, InputState& _inpu
 			_inputStateList.Add(_inputState);
 
 			OutputMemoryBitStream ombs;
-			ombs.Write(PacketType::PT_TRYPOSITION, 3);
+			ombs.Write(PacketType::PT_TRYPOSITION, 4);
 			ombs.Write(_inputState.GetId());
 			ombs.Write(aMovesX);
 			ombs.Write(aMovesY);
@@ -81,6 +81,19 @@ void NetworkClient::SendMove(int _posSquareX, int _posSquareY, InputState& _inpu
 		} timeOfLastMove = time;
 
 	}
+
+}
+
+void NetworkClient::SendShot(int _posSquareX, int _posSquareY, int _posShotX, int _posShotY, InputState& _inputState, InputStateList& _inputStateList) {
+	OutputMemoryBitStream ombs;
+	ombs.Write(PacketType::PT_SHOOT, 4);
+	ombs.Write(_inputState.GetId());
+	ombs.Write(_posSquareX, 10);
+	ombs.Write(_posSquareY, 10);
+	ombs.Write(_posShotX, 10);
+	ombs.Write(_posShotY, 10);
+
+	Send(ombs.GetBufferPtr(), ombs.GetByteLength());
 
 }
 

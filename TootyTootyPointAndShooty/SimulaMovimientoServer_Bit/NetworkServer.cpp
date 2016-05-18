@@ -58,7 +58,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 	//InputMemoryStream ims(_message, _sizeMessage);
 	InputMemoryBitStream imbs(_message, _sizeMessage * 8);
 	PacketType pt=PacketType::PT_EMPTY;
-	imbs.Read(&pt, 3);
+	imbs.Read(&pt, 4);
 
 	ClientProxy cp(_saClient);
 	int index = ExistClientProxy(cp);
@@ -70,7 +70,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 		if (freePosition == -1)
 		{
 			OutputMemoryBitStream ombs;
-			ombs.Write(PacketType::PT_FULL, 3);
+			ombs.Write(PacketType::PT_FULL, 4);
 			udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), _saClient);
 		}
 		else
@@ -85,7 +85,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 				aPlayersConnected[freePosition] = true;
 				
 				OutputMemoryBitStream ombs;
-				ombs.Write(PacketType::PT_WELCOME, 3);
+				ombs.Write(PacketType::PT_WELCOME, 4);
 				//Corresponde al idSquare
 				ombs.Write(freePosition, 2);
 				int numPlayers = GetNumPlayers()-1;
@@ -130,7 +130,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 		{
 			aPlayersConnected[index] = false;
 			OutputMemoryBitStream ombs;
-			ombs.Write(PacketType::PT_RESETPLAYER, 3);
+			ombs.Write(PacketType::PT_RESETPLAYER, 4);
 			ombs.Write(index, 2);
 			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
 		}
@@ -148,7 +148,7 @@ void NetworkServer::Dispatch_Forwards()
 	if (time > timeOfLastForward + FREQUENCY_SENDING_WORLD)
 	{
 		OutputMemoryBitStream ombs;
-		ombs.Write(PacketType::PT_POSITION, 3);
+		ombs.Write(PacketType::PT_POSITION, 4);
 		ombs.Write(aPlayersCommands.Size(), 4);
 		for (size_t i = 0; i < aPlayersCommands.Size(); i++)
 		{

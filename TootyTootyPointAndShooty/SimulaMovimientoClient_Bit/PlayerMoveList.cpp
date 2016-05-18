@@ -12,20 +12,23 @@ void PlayerMoveList::AddMove(int _deltaX, int _deltaY, int _idSquare)
 	push_back(playerMove);
 }
 
-void PlayerMoveList::AddMovesX(int _idSquare, std::vector<int> _aDeltas)
-{
-	for (size_t i = 0; i < _aDeltas.size(); i++)
-	{
-		AddMove(_aDeltas[i], 0, _idSquare);
+void PlayerMoveList::AddMoves(int _idSquare, std::vector<int> _aDeltasX, std::vector<int> _aDeltasY) {
+	if (_aDeltasX.size() > _aDeltasY.size()) {
+		for (size_t i = _aDeltasY.size(); i < _aDeltasX.size(); i++)
+		{
+			_aDeltasY.push_back(0);
+		}
+	} else if (_aDeltasX.size() < _aDeltasY.size()) {
+		for (size_t i = _aDeltasX.size(); i < _aDeltasY.size(); i++)
+		{
+			_aDeltasX.push_back(0);
+		}
 	}
-}
+	for (size_t i = 0; i < _aDeltasX.size(); i++)
+	{
+		AddMove(_aDeltasX[i], _aDeltasY[i], _idSquare);
+	}
 
-void PlayerMoveList::AddMovesY(int _idSquare, std::vector<int> _aDeltas)
-{
-	for (size_t i = 0; i < _aDeltas.size(); i++)
-	{
-		AddMove(0, _aDeltas[i], _idSquare);
-	}
 }
 
 bool PlayerMoveList::PopMove(PlayerMove& _playerMove)
