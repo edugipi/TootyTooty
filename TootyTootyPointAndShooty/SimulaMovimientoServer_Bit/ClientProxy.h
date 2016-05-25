@@ -18,6 +18,7 @@ public:
 	ClientProxy(const ClientProxy& _clientProxy);
 	bool operator==(const ClientProxy& _clientProxy);
 	std::pair <int, int> GetPositionSquare();
+	void SetPositionSquare(int posX, int posY);
 	std::pair <int, int> ChangeMove(int _moveX, int _moveY);
 	bool GetErrorLastMove();
 	void SetNick(std::string _nick);

@@ -1,7 +1,7 @@
 #include "LittleSquareClient.h"
 
 bool LittleSquareClient::IsValidPosition() {
-	if (pos_x >= MIN_SQUARE && pos_x <= MAX_SQUARE && pos_y >= MIN_SQUARE && pos_y <= MAX_SQUARE) {
+	if (pos_x >= 0 && pos_x <= 660 && pos_y >= 0 && pos_y <= 600) {
 		return true;
 	} return false;
 

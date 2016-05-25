@@ -1,16 +1,16 @@
 #include "ClientProxy.h"
 #include "GameServerConstants.h"
 
-ClientProxy::ClientProxy(): nick(""), littleSquare(MIN_SQUARE, MIN_SQUARE), lastMoveWithError(false)
+ClientProxy::ClientProxy(): nick(""), littleSquare(330, 280), lastMoveWithError(false)
 {
 	
 }
 
-ClientProxy::ClientProxy(SocketAddress _saClient): littleSquare(MIN_SQUARE, MIN_SQUARE), saClient(_saClient), lastMoveWithError(false)
+ClientProxy::ClientProxy(SocketAddress _saClient): littleSquare(330, 280), saClient(_saClient), lastMoveWithError(false)
 {
 }
 
-ClientProxy::ClientProxy(std::string _nick, SocketAddress _saClient) : nick(_nick), littleSquare(MIN_SQUARE, MIN_SQUARE), saClient(_saClient), lastMoveWithError(false)
+ClientProxy::ClientProxy(std::string _nick, SocketAddress _saClient) : nick(_nick), littleSquare(330, 280), saClient(_saClient), lastMoveWithError(false)
 {
 
 }
@@ -31,29 +31,34 @@ std::pair <int, int> ClientProxy::GetPositionSquare()
 	return std::make_pair(littleSquare.GetPositionX(), littleSquare.GetPositionY());
 }
 
+void ClientProxy::SetPositionSquare(int posX, int posY)
+{
+	littleSquare.SetPosition(posX, posY);
+}
+
 std::pair <int, int> ClientProxy::ChangeMove(int _moveX, int _moveY) {
 	int posX = littleSquare.GetPositionX();
 	int posY = littleSquare.GetPositionY();
 	int posAuxX = posX + _moveX;
 	int posAuxY = posY + _moveY;
-	if (posAuxX < MIN_SQUARE) {
-		posAuxX = MIN_SQUARE;
+	if (posAuxX < 0) {
+		posAuxX = 0;
 		lastMoveWithError = true;
 
-	} else if (posAuxX > MAX_SQUARE) {
-		posAuxX = MAX_SQUARE;
+	} else if (posAuxX > 660) {
+		posAuxX = 660;
 		lastMoveWithError = true;
 
 	} else {
 		lastMoveWithError = false;
 
 	}
-	if (posAuxY < MIN_SQUARE) {
-		posAuxY = MIN_SQUARE;
+	if (posAuxY < 0) {
+		posAuxY = 0;
 		lastMoveWithError = true;
 
-	} else if (posAuxY > MAX_SQUARE) {
-		posAuxY = MAX_SQUARE;
+	} else if (posAuxY > 560) {
+		posAuxY = 560;
 		lastMoveWithError = true;
 
 	} else {

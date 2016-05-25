@@ -1,1 +1,18 @@
-﻿
+﻿  Game.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(105): warning C4018: '<': signed/unsigned mismatch
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(247): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(250): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(251): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(271): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  SDLInterface.cpp
+  NetworkClient.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+  Main.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+  LittleSquareClient.cpp
+  ErrorManagement.cpp
+  Generating Code...
+  SimulaMovimientoClient_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe

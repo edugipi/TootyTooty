@@ -109,7 +109,19 @@ void Game::Receiving()
 				imbs.Read(&positionY, 10);
 				aSquares[idSquare].SetPosition(positionX, positionY);
 			}
+			imbs.Read(&idSquare, 2);
+			imbs.Read(&positionX, 10);
+			imbs.Read(&positionY, 10);
+			aSquares[idSquare].SetPosition(positionX, positionY);
 			_network.SetNetworkState(NetworkState::WELCOMED);
+		}
+		else if (pt == PacketType::PT_INIT)
+		{
+			int idSquare = 0, positionX = 0, positionY = 0;
+			imbs.Read(&idSquare, 2);
+			imbs.Read(&positionX, 10);
+			imbs.Read(&positionY, 10);
+			aSquares[idSquare].SetPosition(positionX, positionY);
 		}
 		else if (pt == PacketType::PT_FULL)
 		{
@@ -169,7 +181,7 @@ void Game::Receiving()
 		{
 			int idSquare=0;
 			imbs.Read(&idSquare, 2);
-			aSquares[idSquare].SetPosition(MIN_SQUARE, MIN_SQUARE);
+			aSquares[idSquare].SetPosition(330, 280);
 		}
 		else if (pt == PacketType::PT_DISCONNECT)
 		{
@@ -199,28 +211,28 @@ void Game::executePlayerCommands() {
 	//Controlo que no se envíen movimientos inválidos.
 	//Aunque si se enviaran el servidor lo controlaría y me devolvería al sitio.
 	if (_graphic.isKeyDown(SDLK_RIGHT)){
-		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= MAX_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= 660)
 		{
 			_inputState.AddRight();
 			aSquares[_network.GetIdSquare()].AddRight();
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_LEFT)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= MIN_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= 0)
 		{
 			_inputState.AddLeft();
 			aSquares[_network.GetIdSquare()].AddLeft();
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_UP)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 <= MAX_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 >= 0)
 		{
 			_inputState.AddUp();
 			aSquares[_network.GetIdSquare()].AddUp();
 		}
 	}
 	if (_graphic.isKeyDown(SDLK_DOWN)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 >= MIN_SQUARE)
+		if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 <= 560)
 		{
 			_inputState.AddDown();
 			aSquares[_network.GetIdSquare()].AddDown();

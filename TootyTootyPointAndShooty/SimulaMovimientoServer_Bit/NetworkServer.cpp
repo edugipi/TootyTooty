@@ -103,7 +103,43 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						ombs.Write(aPlayers[i].GetPositionSquare().second, 10);
 					}
 				}
+				ombs.Write(freePosition, 2);
+				switch (freePosition) {
+				case 0:
+					ombs.Write(290, 10);
+					ombs.Write(240, 10);
+					aPlayers[0].SetPositionSquare(290, 240);
+					break;
+				case 1:
+					ombs.Write(370, 10);
+					ombs.Write(240, 10);
+					aPlayers[1].SetPositionSquare(370, 240);
+					break;
+				case 2:
+					ombs.Write(290, 10);
+					ombs.Write(320, 10);
+					aPlayers[2].SetPositionSquare(290, 320);
+					break;
+				case 3:
+					ombs.Write(370, 10);
+					ombs.Write(320, 10);
+					aPlayers[3].SetPositionSquare(370, 320);
+					break;
+				}
 				udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), _saClient);
+				for (int i = 0; i < MAX_PLAYERS; i++)
+				{
+					if (aPlayersConnected[i] && i != freePosition)
+					{
+						//Por cada uno de los demás jugadores paso un paquete con tu posición
+						OutputMemoryBitStream ombs;
+						ombs.Write(PacketType::PT_INIT, 4);
+						ombs.Write(freePosition, 2);
+						ombs.Write(aPlayers[freePosition].GetPositionSquare().first, 10);
+						ombs.Write(aPlayers[freePosition].GetPositionSquare().second, 10);
+						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
+					}
+				}
 			}
 		}
 	}
