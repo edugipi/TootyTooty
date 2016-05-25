@@ -1,3 +1,18 @@
-﻿  NetworkServer.cpp
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(189): warning C4018: '<': signed/unsigned mismatch
-  SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
+﻿Build started 25/05/2016 19:16:42.
+     1>Project "C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\SimulaMovimientoServer_Bit\SimulaMovimientoServer_Bit.vcxproj" on node 3 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt NetworkServer.cpp
+         NetworkServer.cpp
+     1>c:\users\colivier\documents\github\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(216): warning C4018: '<': signed/unsigned mismatch
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe" /INCREMENTAL /NOLOGO SimulaMovimientoLib_Bit.lib d3d11.lib dxguid.lib winmm.lib comctl32.lib SocketLib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.lib" /MACHINE:X86 Debug\ClientProxy.obj
+         Debug\MainServer.obj
+         Debug\NetworkServer.obj
+         Debug\PlayerCommand.obj
+         Debug\PlayerCommandList.obj
+         SimulaMovimientoServer_Bit.vcxproj -> C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
+     1>Done Building Project "C:\Users\colivier\Documents\GitHub\TootyTooty\TootyTootyPointAndShooty\SimulaMovimientoServer_Bit\SimulaMovimientoServer_Bit.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.32

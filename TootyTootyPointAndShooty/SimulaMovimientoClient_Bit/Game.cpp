@@ -127,6 +127,20 @@ void Game::Receiving()
 		{
 			std::cout << "Servidor lleno" << std::endl;
 		}
+		else if (pt == PacketType::PT_SHOOT)
+		{
+			int posSquareX = 0, posSquareY = 0, vecShotX = 0, vecShotY = 0;
+			imbs.Read(&posSquareX, 10);
+			imbs.Read(&posSquareY, 10);
+			imbs.Read(&vecShotX, 10);
+			imbs.Read(&vecShotY, 10);
+			shot newShot;
+			newShot.px = posSquareX;
+			newShot.py = posSquareY;
+			newShot.mx = vecShotX;
+			newShot.my = vecShotY;
+			shotsList.push_back(newShot);
+		}
 		else if (pt == PacketType::PT_POSITION)
 		{
 			int numPositionsSend=0;

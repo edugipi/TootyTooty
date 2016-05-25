@@ -160,6 +160,33 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 			
 		}
 	}
+	else if (pt == PacketType::PT_SHOOT)
+	{
+		if (index != -1)
+		{
+			int id = 0, posSquareX = 0, posSquareY = 0, vecShotX = 0, vecShotY = 0;
+			imbs.Read(&id, 2);
+			imbs.Read(&posSquareX, 10);
+			imbs.Read(&posSquareY, 10);
+			imbs.Read(&vecShotX, 10);
+			imbs.Read(&vecShotY, 10);
+			for (int i = 0; i < MAX_PLAYERS; i++)
+			{
+				if (i != id)
+				{
+					//Por cada uno de los demás jugadores paso un paquete con tu posición
+					OutputMemoryBitStream ombs;
+					ombs.Write(PacketType::PT_SHOOT, 4);
+					ombs.Write(posSquareX, 10);
+					ombs.Write(posSquareY, 10);
+					ombs.Write(vecShotX, 10);
+					ombs.Write(vecShotY, 10);
+
+					udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
+				}
+			}
+		}
+	}
 	else if (pt == PacketType::PT_DISCONNECT)
 	{
 		if (index != -1)
