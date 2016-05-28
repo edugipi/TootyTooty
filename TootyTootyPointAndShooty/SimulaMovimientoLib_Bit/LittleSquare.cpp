@@ -1,7 +1,12 @@
+#include "LittleSquare.h"
 #pragma once
 #include "LittleSquare.h"
 #include <iostream>
 
+
+LittleSquare::LittleSquare()
+{
+}
 
 LittleSquare::LittleSquare(int _pos_x, int _pos_y) : pos_x(_pos_x), pos_y(_pos_y) {
 

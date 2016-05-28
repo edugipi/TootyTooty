@@ -9,6 +9,7 @@ protected:
 	int pos_y;
 
 public:
+	LittleSquare();
 	LittleSquare(int _pos_x, int _pos_y);
 	LittleSquare(const LittleSquare& littleSquare);
 	int GetPositionX();

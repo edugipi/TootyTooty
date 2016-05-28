@@ -6,7 +6,10 @@
 #include <InputMemoryBitStream.h>
 #include <InputMemoryStream.h>
 
-NetworkServer::NetworkServer(std::string _strServerAddress): timeOfLastForward(0)
+#define SCREEN_WIDTH 700
+#define SCREEN_HEIGHT 600
+
+NetworkServer::NetworkServer(std::string _strServerAddress): timeOfLastForward(0), timeOfLastSpawn(0)
 {
 	SocketAddress saServer;
 	saServer.SetAddress(_strServerAddress);
@@ -16,6 +19,14 @@ NetworkServer::NetworkServer(std::string _strServerAddress): timeOfLastForward(0
 	{
 		aPlayersConnected[i] = false;
 	}
+	aRocks[0].Rock.SetPosition(SCREEN_WIDTH/3, 0);
+	aRocks[1].Rock.SetPosition(SCREEN_WIDTH * 2 / 3, 0);
+	aRocks[2].Rock.SetPosition(SCREEN_WIDTH + 10, SCREEN_HEIGHT / 3);
+	aRocks[3].Rock.SetPosition(SCREEN_WIDTH + 10, SCREEN_HEIGHT * 2 / 3);
+	aRocks[4].Rock.SetPosition(SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT + 10);
+	aRocks[5].Rock.SetPosition(SCREEN_WIDTH / 3, SCREEN_HEIGHT + 10);
+	aRocks[6].Rock.SetPosition(0, SCREEN_HEIGHT * 2 / 3);
+	aRocks[7].Rock.SetPosition(0, SCREEN_HEIGHT / 3);
 }
 
 bool NetworkServer::Receive()
@@ -244,6 +255,33 @@ void NetworkServer::Dispatch_Forwards()
 		timeOfLastForward = time;
 
 	}
+	if (time > timeOfLastSpawn + SPAWN_TIME) {
+		OutputMemoryBitStream ombs;
+		ombs.Write(PacketType::PT_ROCK, 4);
+
+		std::vector<Roca> activeRocks;
+		for (int i = 0; i < MAX_ROCKS; i++) {
+			if (aRocks[i].Active == true) {
+				activeRocks.push_back(aRocks[i]);
+				aRocks[i].Active == false;
+			}
+		}
+		ombs.Write(activeRocks.size(), 4);
+		for (auto & element : activeRocks) {
+			ombs.Write(element.Rock.GetPositionX(), 10);
+			ombs.Write(element.Rock.GetPositionY(), 10);
+			int vec_x = element.Rock.GetPositionX() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionX();
+			int vec_y = element.Rock.GetPositionY() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionY();
+			float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
+			ombs.Write(vec_x / length, 10);
+			ombs.Write(vec_y / length, 10);
+			std::cout << activeRocks.size();
+		}
+		SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+
+	timeOfLastSpawn = time;
+	}
+	
 }
 
 int NetworkServer::ExistClientProxy(ClientProxy _clientProxy)

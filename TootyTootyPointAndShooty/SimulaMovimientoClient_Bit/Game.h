@@ -19,6 +19,11 @@ struct shot{
 	int decay = 15;
 };
 
+struct rock {
+	LittleSquareClient Rock;
+	int desX, desY;
+};
+
 
 /*
 * The Game class manages the game execution
@@ -41,6 +46,9 @@ class Game {
 		InputStateList _inputStateList;
 		PlayerMoveList _aPlayersMoves;
 		LittleSquareClient aSquares[MAX_PLAYERS];
+		std::vector <rock> aRocks;
+		float norm_x;
+		float norm_y;
 
 		std::vector<shot> shotsList;
 		

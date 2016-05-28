@@ -141,6 +141,23 @@ void Game::Receiving()
 			newShot.my = vecShotY;
 			shotsList.push_back(newShot);
 		}
+		else if (pt == PacketType::PT_ROCK) {
+			int size = 0, positionX = 0, positionY = 0, _desX = 0, _desY = 0;
+			imbs.Read(&size, 4);
+			for (int i = 0; i < size; i++) {
+				rock newRock;
+				imbs.Read(&positionX, 10);
+				imbs.Read(&positionY, 10);
+				imbs.Read(&_desX, 10);
+				imbs.Read(&_desY, 10);
+				newRock.Rock.SetPosition(positionX, positionY);
+				newRock.desX = _desX;
+				newRock.desY = _desY;
+				aRocks.push_back(newRock);
+
+			}
+
+		}
 		else if (pt == PacketType::PT_POSITION)
 		{
 			int numPositionsSend=0;
@@ -286,6 +303,20 @@ void Game::doPhysics() {
 		shotsList[i].decay--;
 		if (shotsList[i].decay < 0) { shotsList.erase(shotsList.begin() + i); };
 	}
+
+	//Rock Movement
+	clock_t time = clock();
+	if (time > 1000) {
+		for (auto & element : aRocks) {
+			element.Rock.SetPosition(element.Rock.GetPositionX() + element.desX * 20,
+			element.Rock.GetPositionY() + element.desY * 20);
+		}
+
+		time = 0;
+	}
+
+
+	
 	
 }
 
@@ -327,7 +358,11 @@ void Game::drawGame() {
 		int positionY = aSquares[i].GetPositionY();
 		_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
 	}
-
+	
+	for (auto & element : aRocks) {
+		_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
+	}
+	
 	for (auto & element : shotsList) {
 		_graphic.drawLine(WHITE, element.px, element.py, element.mx, element.my);
 	}

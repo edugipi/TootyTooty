@@ -5,14 +5,20 @@
 #include "GameServerConstants.h"
 #include "PlayerCommandList.h"
 
+struct Roca{
+	LittleSquare Rock;
+	bool Active = true;
+};
+
 class NetworkServer
 {
 private:
 	UDPSocket udpSocket;
 	ClientProxy aPlayers[MAX_PLAYERS];
+	Roca aRocks[8];
 	bool aPlayersConnected[MAX_PLAYERS];
 	PlayerCommandList aPlayersCommands;
-	clock_t timeOfLastForward;
+	clock_t timeOfLastForward, timeOfLastSpawn;
 	bool Dispatch_Message(char* _message, int _sizeMessage, SocketAddress _saClient);
 	
 	int ExistClientProxy(ClientProxy _clientProxy);
