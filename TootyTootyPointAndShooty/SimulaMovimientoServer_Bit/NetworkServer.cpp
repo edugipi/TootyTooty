@@ -196,6 +196,24 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 				rect.h = 40;
 				if (SDL_IntersectRectAndLine(&rect,
 					&posSquareX, &posSquareY, &vecShotX, &vecShotY)) {
+					switch (i) {
+					case 0:
+					case 1:
+						aRocks[i].Rock.SetPosition(50 + (rand() % (SCREEN_WIDTH - 100)), 0);
+						break;
+					case 2:
+					case 3:
+						aRocks[i].Rock.SetPosition(SCREEN_WIDTH, 50 + (rand() % (SCREEN_HEIGHT - 100)));
+						break;
+					case 4:
+					case 5:
+						aRocks[i].Rock.SetPosition(50 + (rand() % (SCREEN_WIDTH - 100)), SCREEN_HEIGHT);
+						break;
+					case 6:
+					case 7:
+						aRocks[i].Rock.SetPosition(0, 50 + (rand() % (SCREEN_HEIGHT - 100)));
+						break;
+					}
 					aRocks[i].Active = true;
 				}
 			}
