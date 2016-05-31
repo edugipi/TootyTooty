@@ -152,7 +152,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
-				if (GetNumPlayers() == 4) {
+				if (GetNumPlayers() == 1) {
 					for (int i = 0; i < MAX_ROCKS; i++) {
 						aRocks[i].Active = true;
 					}
@@ -187,18 +187,18 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 			imbs.Read(&vecShotX, 10);
 			imbs.Read(&vecShotY, 10);
 			//Check if rock shot
-			/*Rect rect;
+			SDL_Rect rect;
 		
 			for (int i = 0; i < MAX_ROCKS; i++) {
-				rect.X = aRocks[i].Rock.GetPositionX();
-				rect.Y = aRocks[i].Rock.GetPositionY();
-				rect.Width = 40;
-				rect.Height = 40;
-				if (IntersectRectAndLine(&rect,
+				rect.x = aRocks[i].Rock.GetPositionX();
+				rect.y = aRocks[i].Rock.GetPositionY();
+				rect.w = 40;
+				rect.h = 40;
+				if (SDL_IntersectRectAndLine(&rect,
 					&posSquareX, &posSquareY, &vecShotX, &vecShotY)) {
 					aRocks[i].Active = true;
 				}
-			}*/
+			}
 			for (int i = 0; i < MAX_PLAYERS; i++)
 			{
 				if (i != index && aPlayersConnected[i])

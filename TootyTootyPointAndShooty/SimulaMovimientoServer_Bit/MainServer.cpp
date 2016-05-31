@@ -13,10 +13,11 @@ void ServerRun(std::string _serverAddress)
 	} while (true);
 }
 
-void main(int args, char* argv[])
+int main(int args, char* argv[])
 {
 	std::string myAddress = argv[1];
 	SocketTools::CargarLibreria();
 	ServerRun(myAddress);
 	SocketTools::DescargarLibreria();
+	return 0;
 }

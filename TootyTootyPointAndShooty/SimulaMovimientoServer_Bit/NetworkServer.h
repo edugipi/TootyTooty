@@ -4,7 +4,7 @@
 #include "ClientProxy.h"
 #include "GameServerConstants.h"
 #include "PlayerCommandList.h"
-#include <math.h>
+#include <SDL/SDL.h>
 
 struct Roca{
 	LittleSquare Rock;

@@ -1,1 +1,5 @@
-﻿  SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
+﻿  NetworkServer.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(245): warning C4018: '<': signed/unsigned mismatch
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(280): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(326): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
