@@ -151,8 +151,11 @@ void Game::Receiving()
 				imbs.Read(&_desX, 10);
 				imbs.Read(&_desY, 10);
 				newRock.Rock.SetPosition(positionX, positionY);
-				newRock.desX = _desX;
-				newRock.desY = _desY;
+				int vec_x = SCREEN_WIDTH / 2 - positionX;
+				int vec_y = SCREEN_HEIGHT / 2 - positionY;
+				float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
+				newRock.desX = vec_x / length;
+				newRock.desY = vec_y / length;
 				aRocks.push_back(newRock);
 
 			}
@@ -212,7 +215,7 @@ void Game::Receiving()
 		{
 			int idSquare=0;
 			imbs.Read(&idSquare, 2);
-			aSquares[idSquare].SetPosition(330, 280);
+			aSquares[idSquare].SetPosition(0, 710);
 		}
 		else if (pt == PacketType::PT_DISCONNECT)
 		{
@@ -306,13 +309,12 @@ void Game::doPhysics() {
 
 	//Rock Movement
 	clock_t time = clock();
-	if (time > 1000) {
+	if (time > timeOfLastMovement + 50) {
 		for (auto & element : aRocks) {
-			element.Rock.SetPosition(element.Rock.GetPositionX() + element.desX * 20,
-			element.Rock.GetPositionY() + element.desY * 20);
+			element.Rock.SetPosition(element.Rock.GetPositionX() + (element.desX * 4),
+			element.Rock.GetPositionY() + (element.desY * 4));
 		}
-
-		time = 0;
+		timeOfLastMovement = time;
 	}
 
 

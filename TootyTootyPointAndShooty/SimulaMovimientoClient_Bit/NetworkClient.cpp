@@ -83,7 +83,6 @@ void NetworkClient::SendMove(int _posSquareX, int _posSquareY, InputState& _inpu
 void NetworkClient::SendShot(int _posSquareX, int _posSquareY, int _posShotX, int _posShotY, InputState& _inputState, InputStateList& _inputStateList) {
 	OutputMemoryBitStream ombs;
 	ombs.Write(PacketType::PT_SHOOT, 4);
-	ombs.Write(_inputStateList.GetCounter(), 2);
 	ombs.Write(_posSquareX, 10);
 	ombs.Write(_posSquareY, 10);
 	ombs.Write(_posShotX, 10);

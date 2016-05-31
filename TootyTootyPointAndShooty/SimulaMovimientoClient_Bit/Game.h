@@ -21,7 +21,7 @@ struct shot{
 
 struct rock {
 	LittleSquareClient Rock;
-	int desX, desY;
+	float desX, desY;
 };
 
 
@@ -49,6 +49,7 @@ class Game {
 		std::vector <rock> aRocks;
 		float norm_x;
 		float norm_y;
+		clock_t timeOfLastMovement;
 
 		std::vector<shot> shotsList;
 		

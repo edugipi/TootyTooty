@@ -6,6 +6,7 @@
 #include <InputMemoryBitStream.h>
 #include <InputMemoryStream.h>
 
+
 #define SCREEN_WIDTH 700
 #define SCREEN_HEIGHT 600
 
@@ -151,6 +152,11 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
+				if (GetNumPlayers() == 4) {
+					for (int i = 0; i < MAX_ROCKS; i++) {
+						aRocks[i].Active = true;
+					}
+				}
 			}
 		}
 	}
@@ -176,14 +182,26 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 		if (index != -1)
 		{
 			int id = 0, posSquareX = 0, posSquareY = 0, vecShotX = 0, vecShotY = 0;
-			imbs.Read(&id, 2);
 			imbs.Read(&posSquareX, 10);
 			imbs.Read(&posSquareY, 10);
 			imbs.Read(&vecShotX, 10);
 			imbs.Read(&vecShotY, 10);
+			//Check if rock shot
+			/*Rect rect;
+		
+			for (int i = 0; i < MAX_ROCKS; i++) {
+				rect.X = aRocks[i].Rock.GetPositionX();
+				rect.Y = aRocks[i].Rock.GetPositionY();
+				rect.Width = 40;
+				rect.Height = 40;
+				if (IntersectRectAndLine(&rect,
+					&posSquareX, &posSquareY, &vecShotX, &vecShotY)) {
+					aRocks[i].Active = true;
+				}
+			}*/
 			for (int i = 0; i < MAX_PLAYERS; i++)
 			{
-				if (i != id)
+				if (i != index && aPlayersConnected[i])
 				{
 					//Por cada uno de los demás jugadores paso un paquete con tu posición
 					OutputMemoryBitStream ombs;
@@ -255,31 +273,77 @@ void NetworkServer::Dispatch_Forwards()
 		timeOfLastForward = time;
 
 	}
-	if (time > timeOfLastSpawn + SPAWN_TIME) {
-		OutputMemoryBitStream ombs;
-		ombs.Write(PacketType::PT_ROCK, 4);
-
-		std::vector<Roca> activeRocks;
+	if (time > timeOfLastMovement + 50) {
 		for (int i = 0; i < MAX_ROCKS; i++) {
-			if (aRocks[i].Active == true) {
-				activeRocks.push_back(aRocks[i]);
-				aRocks[i].Active == false;
+			if (!aRocks[i].Active) {
+				aRocks[i].Rock.SetPosition(aRocks[i].Rock.GetPositionX() + (aRocks[i].desX * 4),
+					aRocks[i].Rock.GetPositionY() + (aRocks[i].desY * 4));
+			}
+			switch (i) {
+			case 0:
+			case 1:
+				if (aRocks[i].Rock.GetPositionY() > SCREEN_HEIGHT + 20) {
+					aRocks[i].Rock.SetPosition(50 + (rand() % (SCREEN_WIDTH - 100)), 0);
+					aRocks[i].Active = true;
+				}
+				break;
+			case 2:
+			case 3:
+				if (aRocks[i].Rock.GetPositionX() < - 20) {
+					aRocks[i].Rock.SetPosition(SCREEN_WIDTH, 50 + (rand() % (SCREEN_HEIGHT- 100)));
+					aRocks[i].Active = true;
+				}
+				break;
+			case 4:
+			case 5:
+				if (aRocks[i].Rock.GetPositionY() < - 20) {
+					aRocks[i].Rock.SetPosition(50 + (rand() % (SCREEN_WIDTH - 100)), SCREEN_HEIGHT);
+					aRocks[i].Active = true;
+				}
+				break;
+			case 6:
+			case 7:
+				if (aRocks[i].Rock.GetPositionX() > SCREEN_WIDTH + 20) {
+					aRocks[i].Rock.SetPosition(0, 50 + (rand() % (SCREEN_HEIGHT - 100)));
+					aRocks[i].Active = true;
+				}
+				break;
 			}
 		}
-		ombs.Write(activeRocks.size(), 4);
-		for (auto & element : activeRocks) {
-			ombs.Write(element.Rock.GetPositionX(), 10);
-			ombs.Write(element.Rock.GetPositionY(), 10);
-			int vec_x = element.Rock.GetPositionX() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionX();
-			int vec_y = element.Rock.GetPositionY() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionY();
-			float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
-			ombs.Write(vec_x / length, 10);
-			ombs.Write(vec_y / length, 10);
-			std::cout << activeRocks.size();
-		}
-		SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+		timeOfLastMovement = time;
+	}
+	if (time > timeOfLastSpawn + SPAWN_TIME) {
+		//if (GetNumPlayers() == 2) {
+			OutputMemoryBitStream ombs;
+			ombs.Write(PacketType::PT_ROCK, 4);
 
-	timeOfLastSpawn = time;
+			std::vector<Roca> activeRocks;
+			for (int i = 0; i < MAX_ROCKS; i++) {
+				if (aRocks[i].Active == true) {
+					activeRocks.push_back(aRocks[i]);
+					int vec_x = SCREEN_WIDTH / 2 - aRocks[i].Rock.GetPositionX();
+					int vec_y = SCREEN_HEIGHT / 2 - aRocks[i].Rock.GetPositionY();
+					float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
+					aRocks[i].desX = vec_x / length;
+					aRocks[i].desY = vec_y / length;
+					aRocks[i].Active = false;
+				}
+			}
+			ombs.Write(activeRocks.size(), 4);
+			for (auto & element : activeRocks) {
+				ombs.Write(element.Rock.GetPositionX(), 10);
+				ombs.Write(element.Rock.GetPositionY(), 10);/*
+				int vec_x = element.Rock.GetPositionX() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionX();
+				int vec_y = element.Rock.GetPositionY() + std::rand() % SCREEN_WIDTH + element.Rock.GetPositionY();*/
+				element.desX = SCREEN_WIDTH / 2;
+				element.desY = SCREEN_HEIGHT / 2;
+				ombs.Write(element.desX, 10);
+				ombs.Write(element.desY, 10);
+			}
+			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+
+			timeOfLastSpawn = time;
+		//}
 	}
 	
 }

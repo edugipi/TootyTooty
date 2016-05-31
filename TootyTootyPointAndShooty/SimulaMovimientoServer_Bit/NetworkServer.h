@@ -4,10 +4,12 @@
 #include "ClientProxy.h"
 #include "GameServerConstants.h"
 #include "PlayerCommandList.h"
+#include <math.h>
 
 struct Roca{
 	LittleSquare Rock;
-	bool Active = true;
+	bool Active = false;
+	float desX = 0.0f, desY = 0.0f;
 };
 
 class NetworkServer
@@ -20,6 +22,7 @@ private:
 	PlayerCommandList aPlayersCommands;
 	clock_t timeOfLastForward, timeOfLastSpawn;
 	bool Dispatch_Message(char* _message, int _sizeMessage, SocketAddress _saClient);
+	clock_t timeOfLastMovement;
 	
 	int ExistClientProxy(ClientProxy _clientProxy);
 	int GetNumPlayers();

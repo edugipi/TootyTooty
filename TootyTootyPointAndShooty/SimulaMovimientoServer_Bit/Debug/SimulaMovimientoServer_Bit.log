@@ -1,5 +1,1 @@
-﻿  NetworkServer.cpp
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(227): warning C4018: '<': signed/unsigned mismatch
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(266): warning C4553: '==': operator has no effect; did you intend '='?
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(275): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
+﻿  SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe
