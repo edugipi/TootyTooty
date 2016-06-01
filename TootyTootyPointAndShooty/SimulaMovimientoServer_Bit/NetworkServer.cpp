@@ -215,6 +215,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						break;
 					}
 					aRocks[i].Active = true;
+					std::cout << "Tocada" << std::endl;
 				}
 			}
 			for (int i = 0; i < MAX_PLAYERS; i++)

@@ -284,6 +284,17 @@ void Game::executePlayerCommands() {
 		newShot.mx = newShot.px + norm_x * 200;
 		newShot.my = newShot.py + norm_y * 200;
 		shotsList.push_back(newShot);
+		for (int i = 0; i < aRocks.size(); i++) {
+			SDL_Rect rect;
+			rect.x = aRocks[i].Rock.GetPositionX();
+			rect.y = aRocks[i].Rock.GetPositionY();
+			rect.w = 40;
+			rect.h = 40;
+			if (SDL_IntersectRectAndLine(&rect,
+				&newShot.px, &newShot.py, &vec_x, &vec_y)) {
+				aRocks[i].Rock.SetPosition(1000, 0);
+			}
+		}
 		_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
 	}
 	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
@@ -362,6 +373,7 @@ void Game::drawGame() {
 	}
 	
 	for (auto & element : aRocks) {
+		if (element.Rock.GetPositionX() < 900 && element.Rock.GetPositionX() > -100)
 		_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
 	}
 	
