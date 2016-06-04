@@ -244,28 +244,28 @@ void Game::executePlayerCommands() {
 
 	//Controlo que no se envíen movimientos inválidos.
 	//Aunque si se enviaran el servidor lo controlaría y me devolvería al sitio.
-	if (_graphic.isKeyDown(SDLK_RIGHT)){
+	if (_graphic.isKeyDown(SDLK_RIGHT) || _graphic.isKeyDown(SDLK_d)){
 		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= 660)
 		{
 			_inputState.AddRight();
 			aSquares[_network.GetIdSquare()].AddRight();
 		}
 	}
-	if (_graphic.isKeyDown(SDLK_LEFT)) {
+	if (_graphic.isKeyDown(SDLK_LEFT) || _graphic.isKeyDown(SDLK_a)) {
 		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= 0)
 		{
 			_inputState.AddLeft();
 			aSquares[_network.GetIdSquare()].AddLeft();
 		}
 	}
-	if (_graphic.isKeyDown(SDLK_UP)) {
+	if (_graphic.isKeyDown(SDLK_UP) || _graphic.isKeyDown(SDLK_w)) {
 		if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 >= 0)
 		{
 			_inputState.AddUp();
 			aSquares[_network.GetIdSquare()].AddUp();
 		}
 	}
-	if (_graphic.isKeyDown(SDLK_DOWN)) {
+	if (_graphic.isKeyDown(SDLK_DOWN) || _graphic.isKeyDown(SDLK_s)) {
 		if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 <= 560)
 		{
 			_inputState.AddDown();
@@ -291,8 +291,9 @@ void Game::executePlayerCommands() {
 			rect.w = 40;
 			rect.h = 40;
 			if (SDL_IntersectRectAndLine(&rect,
-				&newShot.px, &newShot.py, &vec_x, &vec_y)) {
+				&newShot.px, &newShot.py, &newShot.mx, &newShot.my)) {
 				aRocks[i].Rock.SetPosition(1000, 0);
+				std::cout << "tocada" << std::endl;
 			}
 		}
 		_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
@@ -373,7 +374,6 @@ void Game::drawGame() {
 	}
 	
 	for (auto & element : aRocks) {
-		if (element.Rock.GetPositionX() < 900 && element.Rock.GetPositionX() > -100)
 		_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
 	}
 	
