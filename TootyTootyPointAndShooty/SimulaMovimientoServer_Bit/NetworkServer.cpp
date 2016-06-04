@@ -152,7 +152,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
-				if (GetNumPlayers() == 2) {
+				if (GetNumPlayers() == 1) {
 					for (int i = 0; i < MAX_ROCKS; i++) {
 						aRocks[i].Active = true;
 					}
@@ -256,6 +256,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 
 void NetworkServer::Dispatch_Forwards()
 {
+
 	clock_t time = clock();
 	if (time > timeOfLastForward + FREQUENCY_SENDING_WORLD)
 	{
@@ -364,6 +365,20 @@ void NetworkServer::Dispatch_Forwards()
 
 			timeOfLastSpawn = time;
 		//}
+	}
+	//comprovación RocaVsPlayer
+	for (int j = 0; j < MAX_PLAYERS; j++) {
+		for (int i = 0; i < MAX_ROCKS; i++) {
+			if (
+				aPlayers[j].GetPositionSquare().first + 20 > aRocks[i].Rock.GetPositionX() - 20 &&
+				aPlayers[j].GetPositionSquare().first - 20 < aRocks[i].Rock.GetPositionX() + 20 &&
+				aPlayers[j].GetPositionSquare().second + 20 > aRocks[i].Rock.GetPositionY() - 20 &&
+				aPlayers[j].GetPositionSquare().second - 20 < aRocks[i].Rock.GetPositionY() + 20)
+			{
+				std::cout << "FINAAAL" << std::endl;
+
+			}
+		}
 	}
 	
 }

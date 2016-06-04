@@ -341,10 +341,8 @@ void Game::doPhysics() {
 		}
 		timeOfLastMovement = time;
 	}
-
-
 	
-	
+	//Score
 }
 
 /**

@@ -1,10 +1,5 @@
 ﻿  NetworkServer.cpp
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(265): warning C4018: '<': signed/unsigned mismatch
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(300): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(346): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  PlayerCommandList.cpp
-  MainServer.cpp
-  ClientProxy.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(266): warning C4018: '<': signed/unsigned mismatch
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(301): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoserver_bit\networkserver.cpp(347): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   SimulaMovimientoServer_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoServer_Bit.exe

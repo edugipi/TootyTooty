@@ -1,4 +1,6 @@
-﻿  Game.cpp
+﻿  Main.cpp
+d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
+  Game.cpp
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\inputstatelist.h(34): warning C4018: '<': signed/unsigned mismatch
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(105): warning C4018: '<': signed/unsigned mismatch
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(145): warning C4018: '<': signed/unsigned mismatch
@@ -9,4 +11,6 @@ d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simula
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(300): warning C4018: '<': signed/unsigned mismatch
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(330): warning C4018: '<': signed/unsigned mismatch
 d:\enti\enti_3ero 2ndo sem\tootytooty\tootytooty\tootytootypointandshooty\simulamovimientoclient_bit\game.cpp(340): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  LINK : D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe not found or not built by the last incremental link; performing full link
   SimulaMovimientoClient_Bit.vcxproj -> D:\ENTI\ENTI_3ero 2ndo Sem\TootyTooty\TootyTooty\TootyTootyPointAndShooty\Debug\SimulaMovimientoClient_Bit.exe
