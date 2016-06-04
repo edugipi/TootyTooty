@@ -139,7 +139,21 @@ void Game::Receiving()
 			newShot.py = posSquareY;
 			newShot.mx = vecShotX;
 			newShot.my = vecShotY;
+
 			shotsList.push_back(newShot);
+			//Mirar si shoot de otro jugador petado piedra
+			for (int i = 0; i < aRocks.size(); i++) {
+				SDL_Rect rect;
+				rect.x = aRocks[i].Rock.GetPositionX();
+				rect.y = aRocks[i].Rock.GetPositionY();
+				rect.w = 40;
+				rect.h = 40;
+				if (SDL_IntersectRectAndLine(&rect,
+					&newShot.px, &newShot.py, &newShot.mx, &newShot.my)) {
+					aRocks[i].Rock.SetPosition(1000, 0);
+					std::cout << "OtroTocada" << std::endl;
+				}
+			}
 		}
 		else if (pt == PacketType::PT_ROCK) {
 			int size = 0, positionX = 0, positionY = 0, _desX = 0, _desY = 0;
@@ -157,7 +171,6 @@ void Game::Receiving()
 				newRock.desX = vec_x / length;
 				newRock.desY = vec_y / length;
 				aRocks.push_back(newRock);
-
 			}
 
 		}

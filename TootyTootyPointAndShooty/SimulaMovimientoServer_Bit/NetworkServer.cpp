@@ -152,7 +152,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
-				if (GetNumPlayers() == 1) {
+				if (GetNumPlayers() == 2) {
 					for (int i = 0; i < MAX_ROCKS; i++) {
 						aRocks[i].Active = true;
 					}
@@ -215,6 +215,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						break;
 					}
 					aRocks[i].Active = true;
+
 					std::cout << "Tocada" << std::endl;
 				}
 			}
