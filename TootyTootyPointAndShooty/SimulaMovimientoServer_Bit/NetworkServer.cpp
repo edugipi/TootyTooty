@@ -152,10 +152,11 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
-				if (GetNumPlayers() == 1) {
+				if (GetNumPlayers() == 2) {
 					for (int i = 0; i < MAX_ROCKS; i++) {
 						aRocks[i].Active = true;
 					}
+					start = true;
 				}
 			}
 		}
@@ -175,6 +176,21 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 			
 			aPlayersCommands.AddCommand(index, idMove, deltaX, deltaY, aPosX, aPosY);
 			
+		}
+	}
+	else if (pt == PacketType::PT_END) {
+		end++;
+		std::cout << "envian end, que vale = " << end << std::endl;
+		int i = 0;
+		imbs.Read(&i);
+		OutputMemoryBitStream ombs;
+		ombs.Write(PacketType::PT_RESETPLAYER, 4);
+		ombs.Write(i, 2);
+		SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+		if (end == 2) {
+			OutputMemoryBitStream ombs;
+			ombs.Write(PacketType::PT_END, 4);
+			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
 		}
 	}
 	else if (pt == PacketType::PT_SHOOT)
@@ -292,8 +308,19 @@ void NetworkServer::Dispatch_Forwards()
 
 		} SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
 		timeOfLastForward = time;
-
 	}
+	if (start == true) {
+		if (time > Scoretime + 100)
+		{
+			score++;
+			OutputMemoryBitStream ombs;
+			ombs.Write(PacketType::PT_SCORE, 4);
+			ombs.Write(score);
+			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
+			Scoretime = time;
+		}
+	}
+
 	if (time > timeOfLastMovement + 50) {
 		for (int i = 0; i < MAX_ROCKS; i++) {
 			if (!aRocks[i].Active) {
@@ -366,20 +393,7 @@ void NetworkServer::Dispatch_Forwards()
 			timeOfLastSpawn = time;
 		//}
 	}
-	//comprovación RocaVsPlayer
-	for (int j = 0; j < MAX_PLAYERS; j++) {
-		for (int i = 0; i < MAX_ROCKS; i++) {
-			if (
-				aPlayers[j].GetPositionSquare().first + 20 > aRocks[i].Rock.GetPositionX() - 20 &&
-				aPlayers[j].GetPositionSquare().first - 20 < aRocks[i].Rock.GetPositionX() + 20 &&
-				aPlayers[j].GetPositionSquare().second + 20 > aRocks[i].Rock.GetPositionY() - 20 &&
-				aPlayers[j].GetPositionSquare().second - 20 < aRocks[i].Rock.GetPositionY() + 20)
-			{
-				std::cout << "FINAAAL" << std::endl;
 
-			}
-		}
-	}
 	
 }
 

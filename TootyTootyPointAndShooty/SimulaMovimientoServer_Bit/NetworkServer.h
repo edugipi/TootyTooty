@@ -20,9 +20,12 @@ private:
 	Roca aRocks[8];
 	bool aPlayersConnected[MAX_PLAYERS];
 	PlayerCommandList aPlayersCommands;
-	clock_t timeOfLastForward, timeOfLastSpawn;
+	clock_t timeOfLastForward, timeOfLastSpawn, Scoretime;
 	bool Dispatch_Message(char* _message, int _sizeMessage, SocketAddress _saClient);
 	clock_t timeOfLastMovement;
+	int end = 0;
+	int score = 0;
+	bool start = false;
 	
 	int ExistClientProxy(ClientProxy _clientProxy);
 	int GetNumPlayers();

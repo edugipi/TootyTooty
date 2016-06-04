@@ -50,6 +50,10 @@ class Game {
 		float norm_x;
 		float norm_y;
 		clock_t timeOfLastMovement;
+		bool end = false;
+		bool once = true;
+		bool enough = false;
+		int score = 0;
 
 		std::vector<shot> shotsList;
 		

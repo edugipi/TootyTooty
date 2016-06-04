@@ -151,7 +151,6 @@ void Game::Receiving()
 				if (SDL_IntersectRectAndLine(&rect,
 					&newShot.px, &newShot.py, &newShot.mx, &newShot.my)) {
 					aRocks[i].Rock.SetPosition(1000, 0);
-					std::cout << "OtroTocada" << std::endl;
 				}
 			}
 		}
@@ -173,6 +172,9 @@ void Game::Receiving()
 				aRocks.push_back(newRock);
 			}
 
+		}
+		else if (pt == PacketType::PT_SCORE) {
+			imbs.Read(&score);
 		}
 		else if (pt == PacketType::PT_POSITION)
 		{
@@ -234,6 +236,10 @@ void Game::Receiving()
 		{
 			_gameState = GameState::EXIT;
 		}
+		else if (pt == PacketType::PT_END)
+		{
+			end = true;
+		}
 	}
 }
 
@@ -254,71 +260,72 @@ void Game::SimulateOtherPlayers()
 - m opens the menu
 */
 void Game::executePlayerCommands() {
-
-	//Controlo que no se envíen movimientos inválidos.
-	//Aunque si se enviaran el servidor lo controlaría y me devolvería al sitio.
-	if (_graphic.isKeyDown(SDLK_RIGHT) || _graphic.isKeyDown(SDLK_d)){
-		if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= 660)
-		{
-			_inputState.AddRight();
-			aSquares[_network.GetIdSquare()].AddRight();
-		}
-	}
-	if (_graphic.isKeyDown(SDLK_LEFT) || _graphic.isKeyDown(SDLK_a)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= 0)
-		{
-			_inputState.AddLeft();
-			aSquares[_network.GetIdSquare()].AddLeft();
-		}
-	}
-	if (_graphic.isKeyDown(SDLK_UP) || _graphic.isKeyDown(SDLK_w)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 >= 0)
-		{
-			_inputState.AddUp();
-			aSquares[_network.GetIdSquare()].AddUp();
-		}
-	}
-	if (_graphic.isKeyDown(SDLK_DOWN) || _graphic.isKeyDown(SDLK_s)) {
-		if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 <= 560)
-		{
-			_inputState.AddDown();
-			aSquares[_network.GetIdSquare()].AddDown();
-		}
-	}
-	if (_graphic.isKeyPressed(SDLK_SPACE)) {
-		shot newShot;
-		newShot.px = aSquares[_network.GetIdSquare()].GetPositionX() + SIZE_SQUARE / 2;
-		newShot.py = aSquares[_network.GetIdSquare()].GetPositionY() + SIZE_SQUARE / 2;
-		int vec_x = _graphic.getMouseCoords().x - newShot.px;
-		int vec_y = _graphic.getMouseCoords().y - newShot.py;
-		float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
-		float norm_x = vec_x / length;
-		float norm_y = vec_y / length;
-		newShot.mx = newShot.px + norm_x * 200;
-		newShot.my = newShot.py + norm_y * 200;
-		shotsList.push_back(newShot);
-		for (int i = 0; i < aRocks.size(); i++) {
-			SDL_Rect rect;
-			rect.x = aRocks[i].Rock.GetPositionX();
-			rect.y = aRocks[i].Rock.GetPositionY();
-			rect.w = 40;
-			rect.h = 40;
-			if (SDL_IntersectRectAndLine(&rect,
-				&newShot.px, &newShot.py, &newShot.mx, &newShot.my)) {
-				aRocks[i].Rock.SetPosition(1000, 0);
-				std::cout << "tocada" << std::endl;
+	if (!enough) {
+		//Controlo que no se envíen movimientos inválidos.
+		//Aunque si se enviaran el servidor lo controlaría y me devolvería al sitio.
+		if (_graphic.isKeyDown(SDLK_RIGHT) || _graphic.isKeyDown(SDLK_d)) {
+			//if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= 660)
+			if (aSquares[_network.GetIdSquare()].GetPositionX() + 1 <= 565)
+			{
+				_inputState.AddRight();
+				aSquares[_network.GetIdSquare()].AddRight();
 			}
 		}
-		_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
+		if (_graphic.isKeyDown(SDLK_LEFT) || _graphic.isKeyDown(SDLK_a)) {
+			if (aSquares[_network.GetIdSquare()].GetPositionX() - 1 >= 85)
+			{
+				_inputState.AddLeft();
+				aSquares[_network.GetIdSquare()].AddLeft();
+			}
+		}
+		if (_graphic.isKeyDown(SDLK_UP) || _graphic.isKeyDown(SDLK_w)) {
+			if (aSquares[_network.GetIdSquare()].GetPositionY() - 1 >= 79)
+			{
+				_inputState.AddUp();
+				aSquares[_network.GetIdSquare()].AddUp();
+			}
+		}
+		if (_graphic.isKeyDown(SDLK_DOWN) || _graphic.isKeyDown(SDLK_s)) {
+			if (aSquares[_network.GetIdSquare()].GetPositionY() + 1 <= 476)
+			{
+				_inputState.AddDown();
+				aSquares[_network.GetIdSquare()].AddDown();
+			}
+		}
+		if (_graphic.isKeyPressed(SDLK_SPACE)) {
+			shot newShot;
+			newShot.px = aSquares[_network.GetIdSquare()].GetPositionX() + SIZE_SQUARE / 2;
+			newShot.py = aSquares[_network.GetIdSquare()].GetPositionY() + SIZE_SQUARE / 2;
+			int vec_x = _graphic.getMouseCoords().x - newShot.px;
+			int vec_y = _graphic.getMouseCoords().y - newShot.py;
+			float length = sqrt((vec_x * vec_x) + (vec_y * vec_y));
+			float norm_x = vec_x / length;
+			float norm_y = vec_y / length;
+			newShot.mx = newShot.px + norm_x * 200;
+			newShot.my = newShot.py + norm_y * 200;
+			shotsList.push_back(newShot);
+			for (int i = 0; i < aRocks.size(); i++) {
+				SDL_Rect rect;
+				rect.x = aRocks[i].Rock.GetPositionX();
+				rect.y = aRocks[i].Rock.GetPositionY();
+				rect.w = 40;
+				rect.h = 40;
+				if (SDL_IntersectRectAndLine(&rect,
+					&newShot.px, &newShot.py, &newShot.mx, &newShot.my)) {
+					aRocks[i].Rock.SetPosition(1000, 0);
+					std::cout << "tocada" << std::endl;
+				}
+			}
+			_network.SendShot(newShot.px, newShot.py, newShot.mx, newShot.my, _inputState, _inputStateList);
+		}
+		if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
+			_gameState = GameState::EXIT;
+			OutputMemoryBitStream ombs;
+			ombs.Write(PacketType::PT_DISCONNECT, 4);
+			ombs.Write(_network.GetIdSquare());
+			_network.Send(ombs.GetBufferPtr(), ombs.GetBitLength());
+		}
 	}
-	if (_graphic.isKeyPressed(SDLK_ESCAPE)) {
-		_gameState = GameState::EXIT;
-		OutputMemoryBitStream ombs;
-		ombs.Write(PacketType::PT_DISCONNECT, 4);
-		ombs.Write(_network.GetIdSquare());
-		_network.Send(ombs.GetBufferPtr(), ombs.GetBitLength());
-	}
-
 }
 
 /*
@@ -341,8 +348,29 @@ void Game::doPhysics() {
 		}
 		timeOfLastMovement = time;
 	}
-	
-	//Score
+
+
+	//comprovación RocaVsPlayer
+		for (int i = 0; i < aRocks.size(); i++) {
+			if (once &&
+				aSquares[_network.GetIdSquare()].GetPositionX() + 10 > aRocks[i].Rock.GetPositionX() - 10 &&
+				aSquares[_network.GetIdSquare()].GetPositionX() - 10 < aRocks[i].Rock.GetPositionX() + 10 &&
+				aSquares[_network.GetIdSquare()].GetPositionY() + 10 > aRocks[i].Rock.GetPositionY() - 10 &&
+				aSquares[_network.GetIdSquare()].GetPositionY() - 10 < aRocks[i].Rock.GetPositionY() + 10)
+			{
+				std::cout << "TeHanDao" << std::endl;
+				OutputMemoryBitStream ombs;
+				ombs.Write(PacketType::PT_END, 4);
+				ombs.Write(_network.GetIdSquare());
+				_network.Send(ombs.GetBufferPtr(), ombs.GetBitLength());
+
+				
+				aSquares[_network.GetIdSquare()].SetPosition(0, 1000);
+				enough = true;
+				once = false;
+
+			}
+	}
 }
 
 /**
@@ -377,19 +405,26 @@ void Game::drawGame() {
 
 	_graphic.drawTexture(0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	for (int i = 0; i < MAX_PLAYERS; i++)
-	{
-		int positionX = aSquares[i].GetPositionX();
-		int positionY = aSquares[i].GetPositionY();
-		_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
+	if (!end) {
+		for (int i = 0; i < MAX_PLAYERS; i++)
+		{
+			int positionX = aSquares[i].GetPositionX();
+			int positionY = aSquares[i].GetPositionY();
+			_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
+		}
+
+		for (auto & element : aRocks) {
+			_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
+		}
+
+		for (auto & element : shotsList) {
+			_graphic.drawLine(WHITE, element.px, element.py, element.mx, element.my);
+		}
+		_graphic.drawText(std::to_string(score), 3, 0, 0);
+
 	}
-	
-	for (auto & element : aRocks) {
-		_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
-	}
-	
-	for (auto & element : shotsList) {
-		_graphic.drawLine(WHITE, element.px, element.py, element.mx, element.my);
+	else {
+		_graphic.drawText("YO MA NIGGA THIS BE DONE",0,0,0);
 	}
 
 }
