@@ -49,7 +49,13 @@ void Game::init() {
 		//Set the font style
 	_graphic.setFontStyle(TTF_STYLE_NORMAL);
 		//Initialize the game elements
-	_graphic.loadTexture(0, "bkg.png");
+	_graphic.loadTexture(0, "bkg2.png");
+	_graphic.loadTexture(1, "RedSun.png");
+	_graphic.loadTexture(2, "BlueSun.png");
+	_graphic.loadTexture(3, "GreenSun.png");
+	_graphic.loadTexture(4, "BlackSun.png");
+	_graphic.loadTexture(5, "Asteroid.png");
+
 
 }
 
@@ -173,7 +179,7 @@ void Game::Receiving()
 			}
 
 		}
-		else if (pt == PacketType::PT_SCORE) {
+		else if (pt == PacketType::PT_SCORE && !end) {
 			imbs.Read(&score);
 		}
 		else if (pt == PacketType::PT_POSITION)
@@ -410,21 +416,27 @@ void Game::drawGame() {
 		{
 			int positionX = aSquares[i].GetPositionX();
 			int positionY = aSquares[i].GetPositionY();
-			_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
+			//_graphic.drawFilledRectangle(i, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
+			_graphic.drawTexture(i+1, 0, 0, 500, 500, positionX, positionY, SIZE_SQUARE, SIZE_SQUARE);
 		}
 
 		for (auto & element : aRocks) {
-			_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
+			//_graphic.drawFilledRectangle(BLACK, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
+			_graphic.drawTexture(5, 0, 0, 279, 277, element.Rock.GetPositionX(), element.Rock.GetPositionY(), SIZE_SQUARE - 10, SIZE_SQUARE - 10);
 		}
 
 		for (auto & element : shotsList) {
 			_graphic.drawLine(WHITE, element.px, element.py, element.mx, element.my);
+
 		}
 		_graphic.drawText(std::to_string(score), 3, 0, 0);
 
 	}
 	else {
-		_graphic.drawText("YO MA NIGGA THIS BE DONE",0,0,0);
+		
+		_graphic.drawText("GAME OVER",3,SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT / 2 - 50);
+		_graphic.drawText("Score:", 3, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25);
+		_graphic.drawText(std::to_string(score), 0, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 );
 	}
 
 }

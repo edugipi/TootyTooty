@@ -152,7 +152,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 						udpSocket.SendTo(ombs.GetBufferPtr(), ombs.GetByteLength(), aPlayers[i].GetSocketAddress());
 					}
 				}
-				if (GetNumPlayers() == 2) {
+				if (GetNumPlayers() == 4) {
 					for (int i = 0; i < MAX_ROCKS; i++) {
 						aRocks[i].Active = true;
 					}
@@ -187,7 +187,7 @@ bool NetworkServer::Dispatch_Message(char* _message, int _sizeMessage, SocketAdd
 		ombs.Write(PacketType::PT_RESETPLAYER, 4);
 		ombs.Write(i, 2);
 		SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());
-		if (end == 2) {
+		if (end == 4) {
 			OutputMemoryBitStream ombs;
 			ombs.Write(PacketType::PT_END, 4);
 			SendToAll(ombs.GetBufferPtr(), ombs.GetByteLength());

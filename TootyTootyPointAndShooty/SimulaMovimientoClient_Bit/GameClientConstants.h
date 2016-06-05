@@ -3,7 +3,7 @@
 
 //Game general information
 #define GAME_SPEED 0.1f
-#define GAME_TEXTURES 2
+#define GAME_TEXTURES 6
 #define SCREEN_WIDTH 700
 #define SCREEN_HEIGHT 600
 #define SIZE_SQUARE 40
